@@ -1,4 +1,4 @@
-import 'package:easy_sbp_example/widgets/bank_list.dart';
+import 'package:easy_sbp_example/widgets/bank_view_layout.dart';
 import 'package:flutter/material.dart';
 
 class BankView extends StatelessWidget {
@@ -6,13 +6,15 @@ class BankView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Easy SBP'),
-        backgroundColor: Colors.grey.shade300,
-      ),
-      body: const Center(
-        child: BankList(),
+    return const Scaffold(
+      // appBar: AppBar(
+      //   centerTitle: true,
+      //   title: const Text('EASY SBP'),
+      //   backgroundColor: Colors.grey.shade200,
+      //   surfaceTintColor: Colors.grey.shade200,
+      // ),
+      body: Center(
+        child: BankViewLayout(),
       ),
     );
   }
