@@ -1,3 +1,4 @@
+import 'package:easy_sbp_example/widgets/bank_view.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
@@ -22,12 +23,14 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
+
     initPlatformState();
   }
 
   // Platform messages are asynchronous, so we initialize in an async method.
   Future<void> initPlatformState() async {
     String platformVersion;
+
     // Platform messages may fail, so we use a try/catch PlatformException.
     // We also handle the message potentially returning null.
     try {
@@ -45,20 +48,15 @@ class _MyAppState extends State<MyApp> {
     setState(() {
       _platformVersion = platformVersion;
     });
+
+    print('PLATFORM VERSION: $_platformVersion');
   }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Plugin example app'),
-        ),
-        body: Center(
-          child: Text('Running on: $_platformVersion\n'),
-        ),
-      ),
+      home: BankView(),
     );
   }
 }

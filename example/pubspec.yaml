@@ -16,6 +16,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  http: ^1.2.2
+  url_launcher: ^6.3.0
 
   easy_sbp:
     # When depending on this package from a real application you should use:
