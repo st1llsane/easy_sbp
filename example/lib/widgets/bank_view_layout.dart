@@ -122,7 +122,6 @@ class _MyWidgetState extends State<BankViewLayout> {
             color: Colors.grey.shade200,
             height: 1,
           ),
-
           // List of banks
           Expanded(
             child: BankList(

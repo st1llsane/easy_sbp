@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:easy_sbp_example/models/bank.dart';
 import 'package:http/http.dart' as http;
 
-/// Returns list of banks from https://qr.nspk.ru/proxyapp/c2bmembers.json
+/// Returns list of banks from nspk api
 Future<List<Bank>> getBankList() async {
   try {
     /// Fetch banks list
@@ -17,8 +17,6 @@ Future<List<Bank>> getBankList() async {
     /// Decode dictionary with banks from Json
     final bankList = decodedMap['dictionary'] as List;
 
-    // print('BANK LIST: ${bankList}');
-
     /// Create empty bank list to fill it with parsed banks data later
     final mappedList = <Bank>[];
 
@@ -28,10 +26,14 @@ Future<List<Bank>> getBankList() async {
       mappedList.add(bank);
     }
 
+    // print('______BANK LIST______: ${mappedList}');
+
     return mappedList;
 
     /// Return empty bank list if something went wrong
-  } on Exception {
+  } catch (e) {
+    print('______ERROR______: ${e}');
+
     return <Bank>[];
   }
 }
