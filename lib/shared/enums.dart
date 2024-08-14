@@ -1,0 +1,4 @@
+enum OpenBankAttemptResult {
+  success,
+  failure,
+}

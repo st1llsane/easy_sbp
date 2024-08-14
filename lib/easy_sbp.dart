@@ -10,8 +10,8 @@
 import 'dart:convert';
 
 import 'package:easy_sbp/models/bank.dart';
+import 'package:easy_sbp/shared/enums.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'easy_sbp_platform_interface.dart';
 import 'package:http/http.dart' as http;
@@ -94,7 +94,7 @@ class EasySbp {
 
       return mappedList;
     } catch (e) {
-      print('____ERROR____: ${e}');
+      print('____ERROR____: $e');
 
       /// Return empty bank list if something went wrong.
       return <Bank>[];
@@ -103,10 +103,10 @@ class EasySbp {
 
   /// Try to open bank app.
   ///
-  /// If user doesn't have installed bank app, then try to open it in the browser.
+  /// If user doesn't have installed bank app, then try to open payment page in the browser.
   ///
   /// If neither the bank app nor the payment page in the browser can be opened, it is a good practice to provide the user with information about this.
-  Future<void> openBank(
+  Future<OpenBankAttemptResult> openBank(
     BuildContext context,
     bool mounted, {
     required Bank bank,
@@ -127,6 +127,8 @@ class EasySbp {
       );
     } catch (e) {
       print('ERROR openBank: $e');
+
+      return OpenBankAttemptResult.failure;
     }
 
     // // Ensure the state is still mounted before interacting with notifier
@@ -151,12 +153,18 @@ class EasySbp {
           );
         } catch (e) {
           print('ERROR opening webClientUrl: $e');
+
+          return OpenBankAttemptResult.failure;
         }
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Указанный банк не был найден')),
         );
+
+        return OpenBankAttemptResult.failure;
       }
     }
+
+    return OpenBankAttemptResult.success;
   }
 }

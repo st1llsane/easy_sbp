@@ -2,6 +2,7 @@
 
 import 'package:easy_sbp/easy_sbp.dart';
 import 'package:easy_sbp/models/bank.dart';
+import 'package:easy_sbp/shared/enums.dart';
 import 'package:flutter/material.dart';
 
 class BankItem extends StatefulWidget {
@@ -19,16 +20,27 @@ class BankItem extends StatefulWidget {
 class _BankItemState extends State<BankItem> {
   final esbp = EasySbp();
 
+  Future<OpenBankAttemptResult> handleOpenBank() async {
+    print(widget.bank.bankName);
+
+    return await esbp.openBank(
+      context,
+      mounted,
+      bank: widget.bank,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        print(widget.bank.bankName);
-        esbp.openBank(
-          context,
-          mounted,
-          bank: widget.bank,
-        );
+      onTap: () async {
+        OpenBankAttemptResult openBankResult;
+
+        openBankResult = await handleOpenBank();
+
+        if (openBankResult == OpenBankAttemptResult.failure) {
+          failureModal(context);
+        }
       },
       splashColor: Colors.grey.shade200,
       overlayColor: WidgetStateProperty.all<Color>(Colors.grey.shade100),
@@ -72,4 +84,41 @@ class _BankItemState extends State<BankItem> {
       ),
     );
   }
+}
+
+Future<void> failureModal(BuildContext context) {
+  return showDialog<void>(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: const Text('Basic dialog title'),
+        content: const Text(
+          'A dialog is a type of modal window that\n'
+          'appears in front of app content to\n'
+          'provide critical information, or prompt\n'
+          'for a decision to be made.',
+        ),
+        actions: <Widget>[
+          TextButton(
+            style: TextButton.styleFrom(
+              textStyle: Theme.of(context).textTheme.labelLarge,
+            ),
+            child: const Text('Disable'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+          TextButton(
+            style: TextButton.styleFrom(
+              textStyle: Theme.of(context).textTheme.labelLarge,
+            ),
+            child: const Text('Enable'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    },
+  );
 }
