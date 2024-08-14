@@ -1,13 +1,8 @@
-import 'package:easy_sbp_example/models/bank.dart';
-import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher_string.dart';
+// ignore_for_file: avoid_print
 
-// const paymentUrl =
-//     'https://qr.nspk.ru/AS100001ORTF4GAF80KPJ53K186D9A3G?type=01&bank=100000000111&sum=100&cur=RUB&crc=0C8A';
-// const paymentUrl =
-//     'https://qr.nspk.ru/AS100001ORTF4GAF80KPJ53K186D9A3G?type=01&bank=100000000111&sum=100&cur=RUB';
-const paymentUrl =
-    'https://qr.nspk.ru/AS1A007S6L54D2GE8BIP92DSJCED7O6M?type=01&bank=100000000007&sum=100&cur=RUB&crc=037F';
+import 'package:easy_sbp/easy_sbp.dart';
+import 'package:easy_sbp/models/bank.dart';
+import 'package:flutter/material.dart';
 
 class BankItem extends StatefulWidget {
   final Bank bank;
@@ -22,13 +17,16 @@ class BankItem extends StatefulWidget {
 }
 
 class _BankItemState extends State<BankItem> {
+  final esbp = EasySbp();
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
         print(widget.bank.bankName);
-        openBank(
+        esbp.openBank(
           context,
+          mounted,
           bank: widget.bank,
         );
       },
@@ -45,10 +43,13 @@ class _BankItemState extends State<BankItem> {
             Flexible(
               child: Row(
                 children: [
-                  Image.network(
-                    widget.bank.logoURL,
-                    height: 40,
-                    width: 40,
+                  Container(
+                    decoration: BoxDecoration(),
+                    child: Image.network(
+                      widget.bank.logoURL,
+                      height: 40,
+                      width: 40,
+                    ),
                   ),
                   const SizedBox(width: 10),
                   Flexible(
@@ -70,53 +71,5 @@ class _BankItemState extends State<BankItem> {
         ),
       ),
     );
-  }
-
-  Future<void> openBank(
-    BuildContext context, {
-    required Bank bank,
-  }) async {
-    ScaffoldMessenger.of(context).removeCurrentSnackBar();
-
-    final fixedPaymentUrl = paymentUrl.replaceAll(RegExp('https://'), '');
-    final link = '${bank.schema}://$fixedPaymentUrl';
-
-    print('LINK: $link');
-
-    bool isBankAppWasLaunched = false;
-
-    try {
-      isBankAppWasLaunched = await launchUrlString(
-        link,
-        mode: LaunchMode.externalNonBrowserApplication,
-      );
-
-      print('WAS LAUNCHED: $isBankAppWasLaunched');
-    } catch (e) {
-      print('ERROR openBank: $e');
-    }
-
-    // Ensure the state is still mounted before interacting with the context
-    if (!mounted) return;
-
-    if (!isBankAppWasLaunched) {
-      print('Could not launch $link');
-
-      // Fallback option: Open a web URL if available
-      if (bank.webClientUrl.isNotEmpty) {
-        try {
-          await launchUrlString(
-            bank.webClientUrl,
-            mode: LaunchMode.externalApplication,
-          );
-        } catch (e) {
-          print('ERROR opening webClientUrl: $e');
-        }
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Указанный банк не был найден')),
-        );
-      }
-    }
   }
 }

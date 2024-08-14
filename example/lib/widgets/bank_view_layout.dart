@@ -1,10 +1,12 @@
-import 'package:easy_sbp_example/api/get_bank_list.dart';
-import 'package:easy_sbp_example/models/bank.dart';
+// ignore_for_file: avoid_print
+
+import 'package:easy_sbp/easy_sbp.dart';
+import 'package:easy_sbp/models/bank.dart';
 import 'package:easy_sbp_example/widgets/bank_list.dart';
 import 'package:flutter/material.dart';
 
 class BankViewLayout extends StatefulWidget {
-  /// Includes title, search text field and scrollable bank list
+  /// Includes title, search text field and scrollable bank list.
   const BankViewLayout({super.key});
 
   @override
@@ -12,6 +14,7 @@ class BankViewLayout extends StatefulWidget {
 }
 
 class _MyWidgetState extends State<BankViewLayout> {
+  final esbp = EasySbp();
   late TextEditingController searchController;
   List<Bank> bankList = [];
   bool isLoading = true;
@@ -26,7 +29,7 @@ class _MyWidgetState extends State<BankViewLayout> {
   }
 
   void handleGetBankList() async {
-    bankList = await getBankList();
+    bankList = await esbp.getBankList();
 
     setState(() {
       isLoading = false;
@@ -118,10 +121,12 @@ class _MyWidgetState extends State<BankViewLayout> {
               ],
             ),
           ),
+
           Divider(
             color: Colors.grey.shade200,
             height: 1,
           ),
+
           // List of banks
           Expanded(
             child: BankList(

@@ -1,4 +1,6 @@
-import 'package:easy_sbp_example/models/bank.dart';
+// ignore_for_file: avoid_print
+
+import 'package:easy_sbp/models/bank.dart';
 import 'package:easy_sbp_example/widgets/bank_item.dart';
 import 'package:flutter/material.dart';
 
@@ -29,7 +31,7 @@ class BankList extends StatelessWidget {
           );
         }
 
-        // Show error message if is not isLoading and isEmpty
+        // Show error message if isLoading == false and isEmpty == true
         if (!isLoading && isEmpty) {
           return Padding(
             padding: const EdgeInsets.all(20),
@@ -68,7 +70,7 @@ class BankList extends StatelessWidget {
           );
         }
 
-        // Show bank list if not isLoading and not isEmpty
+        // Render bank list if isLoading == false and isEmpty == false
         return ListView.separated(
           itemCount: bankList.length,
           separatorBuilder: (_, __) => Divider(

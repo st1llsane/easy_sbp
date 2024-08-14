@@ -1,39 +1,41 @@
-import 'dart:convert';
+// import 'dart:convert';
 
-import 'package:easy_sbp_example/models/bank.dart';
-import 'package:http/http.dart' as http;
+// import 'package:easy_sbp/models/bank.dart';
+// import 'package:http/http.dart' as http;
 
-/// Returns list of banks from nspk api
-Future<List<Bank>> getBankList() async {
-  try {
-    /// Fetch banks list
-    final response = await http.get(
-      Uri.parse('https://qr.nspk.ru/proxyapp/c2bmembers.json'),
-    );
+// /// Returns list of banks from nspk api
+// Future<List<Bank>> getBankList() async {
+//   try {
+//     /// Fetch banks list
+//     final response = await http.get(
+//       Uri.parse('https://qr.nspk.ru/proxyapp/c2bmembers.json'),
+//     );
 
-    /// Decode response body from Json
-    final decodedMap = jsonDecode(response.body) as Map<String, dynamic>;
+//     /// Decode response body from Json
+//     final decodedMap = jsonDecode(response.body) as Map<String, dynamic>;
 
-    /// Decode dictionary with banks from Json
-    final bankList = decodedMap['dictionary'] as List;
+//     /// Decode dictionary with banks from Json
+//     final bankList = decodedMap['dictionary'] as List;
 
-    /// Create empty bank list to fill it with parsed banks data later
-    final mappedList = <Bank>[];
+//     /// Create empty bank list to fill it with parsed banks data later
+//     final mappedList = <Bank>[];
 
-    /// Parse bank data
-    for (final item in bankList) {
-      final bank = Bank.fromJson(item);
-      mappedList.add(bank);
-    }
+//     mappedList.runtimeType;
 
-    // print('______BANK LIST______: ${mappedList}');
+//     /// Parse bank data
+//     for (final item in bankList) {
+//       final bank = Bank.fromJson(item);
+//       mappedList.add(bank);
+//     }
 
-    return mappedList;
+//     // print('____BANK_LIST____: ${mappedList}');
 
-    /// Return empty bank list if something went wrong
-  } catch (e) {
-    print('______ERROR______: ${e}');
+//     return mappedList;
 
-    return <Bank>[];
-  }
-}
+//     /// Return empty bank list if something went wrong
+//   } catch (e) {
+//     print('____ERROR____: ${e}');
+
+//     return <Bank>[];
+//   }
+// }
