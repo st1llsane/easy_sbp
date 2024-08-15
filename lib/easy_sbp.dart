@@ -36,11 +36,11 @@ class EasySbp {
 
   // static bool _wasInitialized = false;
 
-  /// Флаг доступности [SbpPay] на данном устройстве.
-  ///
-  /// Доступен только после успешного [init], иначе ошибка.
-  static bool get isAvailable => _isAvailable;
-  static late bool _isAvailable;
+  // /// Флаг доступности [SbpPay] на данном устройстве.
+  // ///
+  // /// Доступен только после успешного [init], иначе ошибка.
+  // static bool get isAvailable => _isAvailable;
+  // static late bool _isAvailable;
 
   /// Инициализация плагина SbpPay.
   ///
