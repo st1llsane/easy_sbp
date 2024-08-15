@@ -1,4 +1,3 @@
-// import 'package:easy_sbp_example/widgets/sbp_modal.dart';
 import 'package:easy_sbp/widgets/sbp_button.dart';
 import 'package:flutter/material.dart';
 
@@ -7,16 +6,22 @@ class BankView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      // appBar: AppBar(
-      //   centerTitle: true,
-      //   title: const Text('EASY SBP'),
-      //   backgroundColor: Colors.grey.shade200,
-      //   surfaceTintColor: Colors.grey.shade200,
-      // ),
-      body: Center(
-        // child: BankViewLayout(),
-        child: SbpButton(),
+    return const SafeArea(
+      child: Padding(
+        padding: EdgeInsets.symmetric(
+          vertical: 10,
+          horizontal: 15,
+        ),
+        child: Stack(
+          children: [
+            Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: SbpButton(),
+            )
+          ],
+        ),
       ),
     );
   }

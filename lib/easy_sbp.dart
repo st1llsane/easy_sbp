@@ -16,10 +16,9 @@ import 'package:url_launcher/url_launcher_string.dart';
 import 'easy_sbp_platform_interface.dart';
 import 'package:http/http.dart' as http;
 
+// Test payment url
 const paymentUrl =
     'https://qr.nspk.ru/BD10005L4ASST1199F79JPLJRVKKP6Q4?type=02&bank=100000000123&sum=67000&cur=RUB&crc=F314';
-
-// https://qr.nspk.ru/BD10005L4ASST1199F79JPLJRVKKP6Q4?type=02&bank=100000000123&sum=67000&cur=RUB&crc=F314
 
 class EasySbp {
   // static const MethodChannel _channel = MethodChannel('sbp_pay');

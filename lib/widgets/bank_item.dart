@@ -61,19 +61,26 @@ class _BankItemState extends State<BankItem> {
             Flexible(
               child: Row(
                 children: [
-                  Container(
-                    decoration: BoxDecoration(),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(
+                      4,
+                    ),
+                    clipBehavior: Clip.hardEdge,
                     child: Image.network(
                       widget.bank.logoURL,
                       height: 40,
                       width: 40,
+                      fit: BoxFit.cover,
+                      semanticLabel: '${widget.bank.bankName} logo',
                     ),
                   ),
                   const SizedBox(width: 10),
                   Flexible(
                     child: Text(
                       widget.bank.bankName,
-                      style: const TextStyle(fontSize: 16),
+                      style: const TextStyle(
+                        fontSize: 16,
+                      ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),

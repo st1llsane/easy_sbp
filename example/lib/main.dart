@@ -1,11 +1,17 @@
-import 'package:easy_sbp/widgets/bank_view.dart';
+// import 'package:easy_sbp/widgets/bank_view.dart';
+import 'package:easy_sbp/widgets/sbp_button.dart';
 import 'package:flutter/material.dart';
+import 'package:easy_sbp/shared/theme/my_theme.dart';
+// import 'package:flutter/scheduler.dart';
 // import 'dart:async';
 // import 'package:flutter/services.dart';
 // import 'package:easy_sbp/easy_sbp.dart';
 
 void main() {
-  runApp(const MyApp());
+  // timeDilation = 5;
+  runApp(
+    const MyApp(),
+  );
 }
 
 class MyApp extends StatefulWidget {
@@ -16,6 +22,12 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  bool isLightTheme = true;
+
+  void toggleTheme() {
+    setState(() => isLightTheme = !isLightTheme);
+  }
+
   // String _platformVersion = 'Unknown';
   // final _easySbpPlugin = EasySbp();
 
@@ -53,9 +65,27 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: BankView(),
+      theme: MyTheme.lightTheme,
+      darkTheme: MyTheme.darkTheme,
+      themeMode: isLightTheme ? ThemeMode.light : ThemeMode.dark,
+      home: Scaffold(
+        body: Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton(
+                onPressed: toggleTheme,
+                child: const Text('Change Theme'),
+              ),
+              const SizedBox(width: 15),
+              // BankView(),
+              const SbpButton()
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

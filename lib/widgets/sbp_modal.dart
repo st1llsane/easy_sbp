@@ -93,15 +93,15 @@ class _MyWidgetState extends State<SbpModal> {
 
                 // Don't need to show search bar if bank list is empty
                 if (!isLoading && !isEmpty) ...[
-                  const SizedBox(height: 15),
+                  const SizedBox(height: 10),
                   SearchBar(
                     onChanged: (value) => print(value),
                     onTapOutside: (_) => (),
                     hintText: 'Введите название банка',
                     padding: WidgetStateProperty.all<EdgeInsetsGeometry?>(
                       const EdgeInsets.symmetric(
-                        horizontal: 10,
-                        vertical: 6,
+                        horizontal: 8,
+                        vertical: 5,
                       ),
                     ),
                     constraints: const BoxConstraints(minHeight: 40),
@@ -149,6 +149,10 @@ Future<void> showSbpModal(BuildContext context) {
     context: context,
     isScrollControlled: true,
     useSafeArea: true,
+    sheetAnimationStyle: AnimationStyle(
+      duration: Durations.medium2,
+      reverseDuration: Durations.short4,
+    ),
     builder: (_) => const SbpModal(),
   );
 }
