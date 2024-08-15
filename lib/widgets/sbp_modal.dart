@@ -2,18 +2,18 @@
 
 import 'package:easy_sbp/easy_sbp.dart';
 import 'package:easy_sbp/models/bank.dart';
-import 'package:easy_sbp_example/widgets/bank_list.dart';
+import 'package:easy_sbp/widgets/bank_list.dart';
 import 'package:flutter/material.dart';
 
-class BankViewLayout extends StatefulWidget {
-  /// Includes title, search text field and scrollable bank list.
-  const BankViewLayout({super.key});
+class SbpModal extends StatefulWidget {
+  /// Includes [Title], [SearchTextField] and scrollable [BankList].
+  const SbpModal({super.key});
 
   @override
-  State<BankViewLayout> createState() => _MyWidgetState();
+  State<SbpModal> createState() => _MyWidgetState();
 }
 
-class _MyWidgetState extends State<BankViewLayout> {
+class _MyWidgetState extends State<SbpModal> {
   final esbp = EasySbp();
   late TextEditingController searchController;
   List<Bank> bankList = [];
@@ -31,13 +31,15 @@ class _MyWidgetState extends State<BankViewLayout> {
   void handleGetBankList() async {
     bankList = await esbp.getBankList();
 
-    setState(() {
-      isLoading = false;
+    if (mounted) {
+      setState(() {
+        isLoading = false;
 
-      if (bankList.isNotEmpty) {
-        isEmpty = false;
-      }
-    });
+        if (bankList.isNotEmpty) {
+          isEmpty = false;
+        }
+      });
+    }
   }
 
   @override
@@ -66,10 +68,10 @@ class _MyWidgetState extends State<BankViewLayout> {
                 Row(
                   children: [
                     IconButton(
-                      // onPressed: () {
-                      //   Navigator.of(context).pop();
-                      // },
-                      onPressed: () => print('Back'),
+                      onPressed: () {
+                        print('Back');
+                        Navigator.pop(context);
+                      },
                       icon: const Icon(
                         Icons.arrow_back_ios_rounded,
                         size: 18,
@@ -140,4 +142,13 @@ class _MyWidgetState extends State<BankViewLayout> {
       ),
     );
   }
+}
+
+Future<void> showSbpModal(BuildContext context) {
+  return showModalBottomSheet<void>(
+    context: context,
+    isScrollControlled: true,
+    useSafeArea: true,
+    builder: (_) => const SbpModal(),
+  );
 }

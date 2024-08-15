@@ -1,4 +1,5 @@
-import 'package:easy_sbp_example/widgets/bank_view_layout.dart';
+// import 'package:easy_sbp_example/widgets/sbp_modal.dart';
+import 'package:easy_sbp/widgets/sbp_button.dart';
 import 'package:flutter/material.dart';
 
 class BankView extends StatelessWidget {
@@ -14,7 +15,8 @@ class BankView extends StatelessWidget {
       //   surfaceTintColor: Colors.grey.shade200,
       // ),
       body: Center(
-        child: BankViewLayout(),
+        // child: BankViewLayout(),
+        child: SbpButton(),
       ),
     );
   }

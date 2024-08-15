@@ -3,6 +3,7 @@
 import 'package:easy_sbp/easy_sbp.dart';
 import 'package:easy_sbp/models/bank.dart';
 import 'package:easy_sbp/shared/enums.dart';
+import 'package:easy_sbp/widgets/info_modal.dart';
 import 'package:flutter/material.dart';
 
 class BankItem extends StatefulWidget {
@@ -38,8 +39,13 @@ class _BankItemState extends State<BankItem> {
 
         openBankResult = await handleOpenBank();
 
-        if (openBankResult == OpenBankAttemptResult.failure) {
-          failureModal(context);
+        if (openBankResult == OpenBankAttemptResult.failure &&
+            context.mounted) {
+          infoModal(
+            context,
+            title: 'Title',
+            description: 'Description',
+          );
         }
       },
       splashColor: Colors.grey.shade200,
@@ -84,41 +90,4 @@ class _BankItemState extends State<BankItem> {
       ),
     );
   }
-}
-
-Future<void> failureModal(BuildContext context) {
-  return showDialog<void>(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: const Text('Basic dialog title'),
-        content: const Text(
-          'A dialog is a type of modal window that\n'
-          'appears in front of app content to\n'
-          'provide critical information, or prompt\n'
-          'for a decision to be made.',
-        ),
-        actions: <Widget>[
-          TextButton(
-            style: TextButton.styleFrom(
-              textStyle: Theme.of(context).textTheme.labelLarge,
-            ),
-            child: const Text('Disable'),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
-          TextButton(
-            style: TextButton.styleFrom(
-              textStyle: Theme.of(context).textTheme.labelLarge,
-            ),
-            child: const Text('Enable'),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
-        ],
-      );
-    },
-  );
 }

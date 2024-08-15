@@ -15,21 +15,11 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'easy_sbp_platform_interface.dart';
 import 'package:http/http.dart' as http;
-// import 'package:flutter/services.dart';
-
-// const paymentUrl =
-//     'https://qr.nspk.ru/AS100001ORTF4GAF80KPJ53K186D9A3G?type=01&bank=100000000111&sum=100&cur=RUB&crc=0C8A';
-// const paymentUrl =
-//     'https://qr.nspk.ru/AS100001ORTF4GAF80KPJ53K186D9A3G?type=01&bank=100000000111&sum=100&cur=RUB';
-
-// const paymentUrl =
-//     'https://qr.nspk.ru/AS1A007S6L54D2GE8BIP92DSJCED7O6M?type=01&bank=100000000007&sum=100&cur=RUB&crc=037F';
 
 const paymentUrl =
-    'https://qr.nspk.ru/BD100051V7823SEF85KAEVEM7THF62OC?type=02';
+    'https://qr.nspk.ru/BD10005L4ASST1199F79JPLJRVKKP6Q4?type=02&bank=100000000123&sum=67000&cur=RUB&crc=F314';
 
-// BD100051V7823SEF85KAEVEM7THF62OC
-// https://qr.nspk.ru/BD100051V7823SEF85KAEVEM7THF62OC?type=02&bank=100000000004&sum=82000&cur=RUB&crc=3A95
+// https://qr.nspk.ru/BD10005L4ASST1199F79JPLJRVKKP6Q4?type=02&bank=100000000123&sum=67000&cur=RUB&crc=F314
 
 class EasySbp {
   // static const MethodChannel _channel = MethodChannel('sbp_pay');
@@ -128,7 +118,7 @@ class EasySbp {
     } catch (e) {
       print('ERROR openBank: $e');
 
-      return OpenBankAttemptResult.failure;
+      // return OpenBankAttemptResult.failure;
     }
 
     // // Ensure the state is still mounted before interacting with notifier
@@ -145,11 +135,14 @@ class EasySbp {
           'Most likely, the user does not have the application of this bank installed');
 
       // Fallback option: Open a web URL if available
-      if (bank.webClientUrl.isNotEmpty) {
+      if (paymentUrl.isNotEmpty) {
         try {
+          print('Try to launch in app browser: $paymentUrl');
+
           await launchUrlString(
-            bank.webClientUrl,
-            mode: LaunchMode.externalApplication,
+            // bank.webClientUrl,
+            paymentUrl,
+            mode: LaunchMode.inAppWebView,
           );
         } catch (e) {
           print('ERROR opening webClientUrl: $e');
@@ -157,9 +150,11 @@ class EasySbp {
           return OpenBankAttemptResult.failure;
         }
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Указанный банк не был найден')),
-        );
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Указанный банк не был найден')),
+          );
+        }
 
         return OpenBankAttemptResult.failure;
       }

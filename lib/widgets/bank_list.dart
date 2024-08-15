@@ -1,7 +1,7 @@
 // ignore_for_file: avoid_print
 
 import 'package:easy_sbp/models/bank.dart';
-import 'package:easy_sbp_example/widgets/bank_item.dart';
+import 'package:easy_sbp/widgets/bank_item.dart';
 import 'package:flutter/material.dart';
 
 class BankList extends StatelessWidget {

@@ -1,4 +1,4 @@
-import 'package:easy_sbp_example/widgets/bank_view.dart';
+import 'package:easy_sbp/widgets/bank_view.dart';
 import 'package:flutter/material.dart';
 // import 'dart:async';
 // import 'package:flutter/services.dart';
