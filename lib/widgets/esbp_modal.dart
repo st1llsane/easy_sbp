@@ -2,18 +2,24 @@
 
 import 'package:easy_sbp/easy_sbp.dart';
 import 'package:easy_sbp/models/bank.dart';
+import 'package:easy_sbp/shared/theme/esbp_theme.dart';
 import 'package:easy_sbp/widgets/bank_list.dart';
 import 'package:flutter/material.dart';
 
-class SbpModal extends StatefulWidget {
+class ESbpModal extends StatefulWidget {
+  final ESbpModalTheme theme;
+
   /// Includes [Title], [SearchTextField] and scrollable [BankList].
-  const SbpModal({super.key});
+  const ESbpModal({
+    super.key,
+    this.theme = const ESbpModalTheme(),
+  });
 
   @override
-  State<SbpModal> createState() => _MyWidgetState();
+  State<ESbpModal> createState() => _MyWidgetState();
 }
 
-class _MyWidgetState extends State<SbpModal> {
+class _MyWidgetState extends State<ESbpModal> {
   final esbp = EasySbp();
   late TextEditingController searchController;
   List<Bank> bankList = [];
@@ -56,7 +62,7 @@ class _MyWidgetState extends State<SbpModal> {
         mainAxisSize: MainAxisSize.max,
         children: [
           Container(
-            color: Colors.white,
+            color: widget.theme.headerBgColor,
             padding: const EdgeInsets.only(
               top: 10,
               left: 15,
@@ -80,11 +86,12 @@ class _MyWidgetState extends State<SbpModal> {
                         const Size.fromRadius(18),
                       ),
                     ),
-                    const Text(
+                    Text(
                       'Оплата через СБП',
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w500,
+                        color: widget.theme.fgColor,
                       ),
                       maxLines: 2,
                     ),
@@ -106,16 +113,24 @@ class _MyWidgetState extends State<SbpModal> {
                     ),
                     constraints: const BoxConstraints(minHeight: 40),
                     shadowColor: null,
-                    elevation: const WidgetStatePropertyAll(0),
-                    backgroundColor:
-                        WidgetStateProperty.all(Colors.grey.shade200),
-                    hintStyle: WidgetStatePropertyAll(TextStyle(
-                      fontSize: 16,
-                      color: Colors.grey.shade500,
-                    )),
-                    textStyle: const WidgetStatePropertyAll(TextStyle(
-                      fontSize: 16,
-                    )),
+                    elevation: WidgetStatePropertyAll(
+                      widget.theme.searchBarElevation,
+                    ),
+                    backgroundColor: WidgetStateProperty.all(
+                      widget.theme.searchBarBgColor,
+                    ),
+                    hintStyle: WidgetStatePropertyAll(
+                      TextStyle(
+                        color: widget.theme.searchBarHintColor,
+                        fontSize: 16,
+                      ),
+                    ),
+                    textStyle: WidgetStatePropertyAll(
+                      TextStyle(
+                        color: widget.theme.fgColor,
+                        fontSize: 16,
+                      ),
+                    ),
                     keyboardType: TextInputType.text,
                     controller: searchController,
                   ),
@@ -124,18 +139,23 @@ class _MyWidgetState extends State<SbpModal> {
             ),
           ),
 
-          Divider(
-            color: Colors.grey.shade200,
-            height: 1,
-          ),
+          if (widget.theme.isShowBottomDivider) ...[
+            Divider(
+              height: 1,
+              color: widget.theme.dividerColor,
+            ),
+          ],
 
           // List of banks
           Expanded(
-            child: BankList(
-              bankList: bankList,
-              handleGetBankList: handleGetBankList,
-              isLoading: isLoading,
-              isEmpty: isEmpty,
+            child: Container(
+              color: widget.theme.bgColor,
+              child: BankList(
+                bankList: bankList,
+                handleGetBankList: handleGetBankList,
+                isLoading: isLoading,
+                isEmpty: isEmpty,
+              ),
             ),
           ),
         ],
@@ -144,7 +164,7 @@ class _MyWidgetState extends State<SbpModal> {
   }
 }
 
-Future<void> showSbpModal(BuildContext context) {
+Future<void> showSbpModal(BuildContext context, ESbpModalTheme theme) {
   return showModalBottomSheet<void>(
     context: context,
     isScrollControlled: true,
@@ -153,6 +173,6 @@ Future<void> showSbpModal(BuildContext context) {
       duration: Durations.medium2,
       reverseDuration: Durations.short4,
     ),
-    builder: (_) => const SbpModal(),
+    builder: (_) => ESbpModal(theme: theme),
   );
 }
