@@ -16,7 +16,7 @@ import org.mockito.Mockito
 internal class EasySbpPluginTest {
   @Test
   fun onMethodCall_getPlatformVersion_returnsExpectedValue() {
-    val plugin = EasySbpPlugin()
+    val plugin = ESbpPlugin()
 
     val call = MethodCall("getPlatformVersion", null)
     val mockResult: MethodChannel.Result = Mockito.mock(MethodChannel.Result::class.java)

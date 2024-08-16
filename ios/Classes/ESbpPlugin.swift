@@ -1,10 +1,10 @@
 import Flutter
 import UIKit
 
-public class EasySbpPlugin: NSObject, FlutterPlugin {
+public class ESbpPlugin: NSObject, FlutterPlugin {
   public static func register(with registrar: FlutterPluginRegistrar) {
     let channel = FlutterMethodChannel(name: "easy_sbp", binaryMessenger: registrar.messenger())
-    let instance = EasySbpPlugin()
+    let instance = ESbpPlugin()
     registrar.addMethodCallDelegate(instance, channel: channel)
   }
 

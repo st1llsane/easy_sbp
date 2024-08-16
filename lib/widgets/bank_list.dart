@@ -1,11 +1,10 @@
-// ignore_for_file: avoid_print
-
 import 'package:easy_sbp/models/bank.dart';
 import 'package:easy_sbp/widgets/bank_item.dart';
 import 'package:flutter/material.dart';
 
 class BankList extends StatelessWidget {
   final List<Bank> bankList;
+  final String paymentUrl;
   final VoidCallback handleGetBankList;
   final bool isLoading;
   final bool isEmpty;
@@ -13,6 +12,7 @@ class BankList extends StatelessWidget {
   const BankList({
     super.key,
     required this.bankList,
+    required this.paymentUrl,
     required this.handleGetBankList,
     required this.isLoading,
     required this.isEmpty,
@@ -46,10 +46,7 @@ class BankList extends StatelessWidget {
                   ),
                   const SizedBox(height: 20),
                   ElevatedButton.icon(
-                    onPressed: () {
-                      print('TRY AGAIN');
-                      handleGetBankList();
-                    },
+                    onPressed: () => handleGetBankList(),
                     label: const Text(
                       'Повторить попытку',
                       style: TextStyle(fontSize: 20),
@@ -79,10 +76,9 @@ class BankList extends StatelessWidget {
           ),
           itemBuilder: (context, index) {
             final bank = bankList[index];
-            print('____BANK____: ${bank.bankName} | ${bank.webClientUrl}');
-
             return BankItem(
               bank: bank,
+              paymentUrl: paymentUrl,
             );
           },
         );

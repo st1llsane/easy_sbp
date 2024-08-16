@@ -12,68 +12,33 @@ import 'dart:convert';
 import 'package:easy_sbp/models/bank.dart';
 import 'package:easy_sbp/shared/enums.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher_string.dart';
-import 'easy_sbp_platform_interface.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'esbp_platform_interface.dart';
 import 'package:http/http.dart' as http;
 
-// Test payment url
-const paymentUrl =
-    'https://qr.nspk.ru/BD10005L4ASST1199F79JPLJRVKKP6Q4?type=02&bank=100000000123&sum=67000&cur=RUB&crc=F314';
-
-class EasySbp {
-  // static const MethodChannel _channel = MethodChannel('sbp_pay');
-
-  // static bool _wasInitialized = false;
-
-  // /// Флаг доступности [SbpPay] на данном устройстве.
-  // ///
-  // /// Доступен только после успешного [init], иначе ошибка.
-  // static bool get isAvailable => _isAvailable;
-  // static late bool _isAvailable;
-
-  /// Инициализация плагина SbpPay.
-  ///
-  /// Возвращает false, если сервис не поддерживается устройством.
-  // static Future<bool> init() async {
-  //   if (!_wasInitialized) {
-  //     _isAvailable = await _channel
-  //         .invokeMethod<bool?>('init')
-  //         .then((value) => value ?? false);
-
-  //     _wasInitialized = true;
-  //     return _isAvailable;
-  //   }
-
-  //   return _isAvailable;
-  // }
-
-  /// Вызов нативного окна SbpPay выбора банков.
-  // static Future<void> showPaymentModal(String link) {
-  //   return _channel.invokeMethod('showPaymentModal', link);
-  // }
-
+class ESbp {
   Future<String?> getPlatformVersion() {
-    return EasySbpPlatform.instance.getPlatformVersion();
+    return ESbpPlatform.instance.getPlatformVersion();
   }
 
   /// Returns list of banks from nspk api.
   Future<List<Bank>> getBankList() async {
     try {
-      /// Fetch banks list.
+      // Fetch banks list.
       final response = await http.get(
         Uri.parse('https://qr.nspk.ru/proxyapp/c2bmembers.json'),
       );
 
-      /// Decode response body from Json.
+      // Decode response body from Json.
       final decodedMap = jsonDecode(response.body) as Map<String, dynamic>;
 
-      /// Decode dictionary with banks from Json.
+      // Decode dictionary with banks from Json.
       final bankList = decodedMap['dictionary'] as List;
 
-      /// Create empty bank list to fill it with parsed banks data later.
+      // Create empty bank list to fill it with parsed banks data later.
       final mappedList = <Bank>[];
 
-      /// Parse bank data.
+      // Parse bank data.
       for (final item in bankList) {
         final bank = Bank.fromJson(item);
         mappedList.add(bank);
@@ -95,29 +60,31 @@ class EasySbp {
   /// If user doesn't have installed bank app, then try to open payment page in the browser.
   ///
   /// If neither the bank app nor the payment page in the browser can be opened, it is a good practice to provide the user with information about this.
-  Future<OpenBankAttemptResult> openBank(
+  Future<OpenBankResult> openBank(
     BuildContext context,
     bool mounted, {
     required Bank bank,
+    required String paymentUrl,
   }) async {
     ScaffoldMessenger.of(context).removeCurrentSnackBar();
 
-    final fixedPaymentUrl = paymentUrl.replaceAll(RegExp('https://'), '');
-    final link = '${bank.schema}://$fixedPaymentUrl';
+    final link =
+        Uri.parse(paymentUrl.replaceAll(RegExp('https://'), bank.schema));
+    // final link = Uri.parse('${bank.schema}://$fixedPaymentUrl');
 
-    // print('LINK: $link');
+    print('LINK: $link');
 
     bool isBankAppWasLaunched = false;
 
     try {
-      isBankAppWasLaunched = await launchUrlString(
+      isBankAppWasLaunched = await launchUrl(
         link,
-        mode: LaunchMode.externalNonBrowserApplication,
+        mode: LaunchMode.externalApplication,
       );
     } catch (e) {
       print('ERROR openBank: $e');
 
-      // return OpenBankAttemptResult.failure;
+      // return OpenBankResult.failure;
     }
 
     // // Ensure the state is still mounted before interacting with notifier
@@ -131,22 +98,22 @@ class EasySbp {
 
     if (!isBankAppWasLaunched) {
       print('Could not launch app with link: $link.\n'
-          'Most likely, the user does not have the application of this bank installed');
+          "Most likely, user doesn't have this bank app installed");
 
-      // Fallback option: Open a web URL if available
+      // Fallback option: Open bank in app web view
       if (paymentUrl.isNotEmpty) {
         try {
           print('Try to launch in app browser: $paymentUrl');
 
-          await launchUrlString(
+          await launchUrl(
             // bank.webClientUrl,
-            paymentUrl,
+            Uri.parse(paymentUrl),
             mode: LaunchMode.inAppWebView,
           );
         } catch (e) {
           print('ERROR opening webClientUrl: $e');
 
-          return OpenBankAttemptResult.failure;
+          return OpenBankResult.failure;
         }
       } else {
         if (context.mounted) {
@@ -155,10 +122,10 @@ class EasySbp {
           );
         }
 
-        return OpenBankAttemptResult.failure;
+        return OpenBankResult.failure;
       }
     }
 
-    return OpenBankAttemptResult.success;
+    return OpenBankResult.success;
   }
 }

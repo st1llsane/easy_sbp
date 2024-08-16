@@ -1,4 +1,4 @@
-enum OpenBankAttemptResult {
+enum OpenBankResult {
   success,
   failure,
 }

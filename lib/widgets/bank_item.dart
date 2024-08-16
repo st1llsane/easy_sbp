@@ -1,6 +1,4 @@
-// ignore_for_file: avoid_print
-
-import 'package:easy_sbp/easy_sbp.dart';
+import 'package:easy_sbp/esbp.dart';
 import 'package:easy_sbp/models/bank.dart';
 import 'package:easy_sbp/shared/enums.dart';
 import 'package:easy_sbp/widgets/info_modal.dart';
@@ -8,9 +6,11 @@ import 'package:flutter/material.dart';
 
 class BankItem extends StatefulWidget {
   final Bank bank;
+  final String paymentUrl;
 
   const BankItem({
     super.key,
+    required this.paymentUrl,
     required this.bank,
   });
 
@@ -19,15 +19,14 @@ class BankItem extends StatefulWidget {
 }
 
 class _BankItemState extends State<BankItem> {
-  final esbp = EasySbp();
+  final esbp = ESbp();
 
-  Future<OpenBankAttemptResult> handleOpenBank() async {
-    print(widget.bank.bankName);
-
+  Future<OpenBankResult> handleOpenBank() async {
     return await esbp.openBank(
       context,
       mounted,
       bank: widget.bank,
+      paymentUrl: widget.paymentUrl,
     );
   }
 
@@ -35,16 +34,14 @@ class _BankItemState extends State<BankItem> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () async {
-        OpenBankAttemptResult openBankResult;
+        OpenBankResult openBankResult = await handleOpenBank();
 
-        openBankResult = await handleOpenBank();
-
-        if (openBankResult == OpenBankAttemptResult.failure &&
-            context.mounted) {
+        if (openBankResult == OpenBankResult.failure && context.mounted) {
           infoModal(
             context,
-            title: 'Title',
-            description: 'Description',
+            title: 'Произошла ошибка',
+            description:
+                'К сожалению, на данный момент, оплата через этот банк недоступна',
           );
         }
       },

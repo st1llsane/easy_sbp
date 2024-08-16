@@ -1,11 +1,12 @@
-import 'package:easy_sbp/shared/theme/esbp_theme.dart';
-import 'package:easy_sbp/widgets/esbp_button.dart';
+import 'package:easy_sbp/widgets/sbp_button.dart';
 import 'package:flutter/material.dart';
 
+// Test payment url
+const paymentUrl =
+    'https://qr.nspk.ru/BD10005L4ASST1199F79JPLJRVKKP6Q4?type=02&bank=100000000123&sum=67000&cur=RUB&crc=F314';
+
 void main() {
-  runApp(
-    const MyApp(),
-  );
+  runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
@@ -34,8 +35,8 @@ class _MyAppState extends State<MyApp> {
                   left: 0,
                   right: 0,
                   child: ESbpButton(
-                    sbpButtonTheme: ESbpButtonTheme(),
-                    sbpModalTheme: ESbpModalTheme(),
+                    paymentUrl: paymentUrl,
+                    // onComplete: () {}
                   ),
                 ),
               ],

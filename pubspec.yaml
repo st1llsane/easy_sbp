@@ -43,9 +43,9 @@ flutter:
     # -------------------
       android:
         package: com.example.easy_sbp
-        pluginClass: EasySbpPlugin
+        pluginClass: ESbpPlugin
       ios:
-        pluginClass: EasySbpPlugin
+        pluginClass: ESbpPlugin
     # -------------------
 
   # To add assets to your plugin package, add an assets section, like this:

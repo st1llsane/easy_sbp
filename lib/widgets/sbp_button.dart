@@ -1,13 +1,17 @@
 import 'package:easy_sbp/shared/theme/esbp_theme.dart';
-import 'package:easy_sbp/widgets/esbp_modal.dart';
+import 'package:easy_sbp/widgets/sbp_modal.dart';
 import 'package:flutter/material.dart';
 
 class ESbpButton extends StatelessWidget {
+  final String paymentUrl;
+  // final VoidCallback onComplete;
   final ESbpButtonTheme sbpButtonTheme;
   final ESbpModalTheme sbpModalTheme;
 
   const ESbpButton({
     super.key,
+    required this.paymentUrl,
+    // required this.onComplete,
     this.sbpButtonTheme = const ESbpButtonTheme(),
     this.sbpModalTheme = const ESbpModalTheme(),
   });
@@ -15,7 +19,7 @@ class ESbpButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () => showSbpModal(context, sbpModalTheme),
+      onPressed: () => showSbpModal(context, sbpModalTheme, paymentUrl),
       style: ElevatedButton.styleFrom(
         backgroundColor: sbpButtonTheme.bgColor,
         foregroundColor: sbpButtonTheme.fgColor,

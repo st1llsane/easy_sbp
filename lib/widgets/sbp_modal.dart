@@ -1,6 +1,4 @@
-// ignore_for_file: avoid_print
-
-import 'package:easy_sbp/easy_sbp.dart';
+import 'package:easy_sbp/esbp.dart';
 import 'package:easy_sbp/models/bank.dart';
 import 'package:easy_sbp/shared/theme/esbp_theme.dart';
 import 'package:easy_sbp/widgets/bank_list.dart';
@@ -8,10 +6,12 @@ import 'package:flutter/material.dart';
 
 class ESbpModal extends StatefulWidget {
   final ESbpModalTheme theme;
+  final String paymentUrl;
 
   /// Includes [Title], [SearchTextField] and scrollable [BankList].
   const ESbpModal({
     super.key,
+    required this.paymentUrl,
     this.theme = const ESbpModalTheme(),
   });
 
@@ -20,7 +20,7 @@ class ESbpModal extends StatefulWidget {
 }
 
 class _MyWidgetState extends State<ESbpModal> {
-  final esbp = EasySbp();
+  final esbp = ESbp();
   late TextEditingController searchController;
   List<Bank> bankList = [];
   bool isLoading = true;
@@ -74,10 +74,7 @@ class _MyWidgetState extends State<ESbpModal> {
                 Row(
                   children: [
                     IconButton(
-                      onPressed: () {
-                        print('Back');
-                        Navigator.pop(context);
-                      },
+                      onPressed: () => Navigator.pop(context),
                       icon: const Icon(
                         Icons.arrow_back_ios_rounded,
                         size: 18,
@@ -152,6 +149,7 @@ class _MyWidgetState extends State<ESbpModal> {
               color: widget.theme.bgColor,
               child: BankList(
                 bankList: bankList,
+                paymentUrl: widget.paymentUrl,
                 handleGetBankList: handleGetBankList,
                 isLoading: isLoading,
                 isEmpty: isEmpty,
@@ -164,7 +162,11 @@ class _MyWidgetState extends State<ESbpModal> {
   }
 }
 
-Future<void> showSbpModal(BuildContext context, ESbpModalTheme theme) {
+Future<void> showSbpModal(
+  BuildContext context,
+  ESbpModalTheme theme,
+  String paymentUrl,
+) {
   return showModalBottomSheet<void>(
     context: context,
     isScrollControlled: true,
@@ -173,6 +175,9 @@ Future<void> showSbpModal(BuildContext context, ESbpModalTheme theme) {
       duration: Durations.medium2,
       reverseDuration: Durations.short4,
     ),
-    builder: (_) => ESbpModal(theme: theme),
+    builder: (_) => ESbpModal(
+      theme: theme,
+      paymentUrl: paymentUrl,
+    ),
   );
 }
