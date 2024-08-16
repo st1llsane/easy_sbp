@@ -11,6 +11,7 @@ import 'dart:convert';
 
 import 'package:easy_sbp/models/bank.dart';
 import 'package:easy_sbp/shared/enums.dart';
+import 'package:easy_sbp/shared/utils/fix_t_bank_received_name.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'esbp_platform_interface.dart';
@@ -41,12 +42,16 @@ class ESbp {
       // Parse bank data.
       for (final item in bankList) {
         final bank = Bank.fromJson(item);
+
         mappedList.add(bank);
       }
 
+      // Fix T-Bank received name, because in the api we get T-Bank with English "T" word.
+      final fixedBankList = fixTBankReceivedName(mappedList);
+
       // print('____BANK_LIST____: ${mappedList}');
 
-      return mappedList;
+      return fixedBankList;
     } catch (e) {
       print('____ERROR____: $e');
 
@@ -68,9 +73,8 @@ class ESbp {
   }) async {
     ScaffoldMessenger.of(context).removeCurrentSnackBar();
 
-    final link =
-        Uri.parse(paymentUrl.replaceAll(RegExp('https://'), bank.schema));
-    // final link = Uri.parse('${bank.schema}://$fixedPaymentUrl');
+    final fixedPaymentUrl = paymentUrl.replaceAll(RegExp('https://'), '');
+    final link = Uri.parse('${bank.schema}://$fixedPaymentUrl');
 
     print('LINK: $link');
 
@@ -79,7 +83,7 @@ class ESbp {
     try {
       isBankAppWasLaunched = await launchUrl(
         link,
-        mode: LaunchMode.externalApplication,
+        mode: LaunchMode.externalNonBrowserApplication,
       );
     } catch (e) {
       print('ERROR openBank: $e');

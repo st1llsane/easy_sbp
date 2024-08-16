@@ -34,6 +34,8 @@ class _BankItemState extends State<BankItem> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () async {
+        print(widget.bank.bankName.trim().toLowerCase());
+        return;
         OpenBankResult openBankResult = await handleOpenBank();
 
         if (openBankResult == OpenBankResult.failure && context.mounted) {

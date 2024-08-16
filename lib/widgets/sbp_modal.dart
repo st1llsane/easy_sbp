@@ -21,16 +21,19 @@ class ESbpModal extends StatefulWidget {
 
 class _MyWidgetState extends State<ESbpModal> {
   final esbp = ESbp();
+  late FocusNode searchFocusNode;
   late TextEditingController searchController;
   List<Bank> bankList = [];
   bool isLoading = true;
   bool isEmpty = true;
+  List<Bank> searchResult = [];
 
   @override
   void initState() {
     super.initState();
 
     handleGetBankList();
+    searchFocusNode = FocusNode();
     searchController = TextEditingController();
   }
 
@@ -48,8 +51,18 @@ class _MyWidgetState extends State<ESbpModal> {
     }
   }
 
+  searchBank(String value) {
+    setState(() {
+      searchResult = bankList
+          .where((bank) => bank.bankName.trim().toLowerCase().contains(value))
+          .toList();
+    });
+    print(searchResult);
+  }
+
   @override
   void dispose() {
+    searchFocusNode.dispose();
     searchController.dispose();
     super.dispose();
   }
@@ -99,8 +112,10 @@ class _MyWidgetState extends State<ESbpModal> {
                 if (!isLoading && !isEmpty) ...[
                   const SizedBox(height: 10),
                   SearchBar(
-                    onChanged: (value) => print(value),
-                    onTapOutside: (_) => (),
+                    focusNode: searchFocusNode,
+                    controller: searchController,
+                    onChanged: searchBank,
+                    onTapOutside: (event) => searchFocusNode.unfocus(),
                     hintText: 'Введите название банка',
                     padding: WidgetStateProperty.all<EdgeInsetsGeometry?>(
                       const EdgeInsets.symmetric(
@@ -129,7 +144,6 @@ class _MyWidgetState extends State<ESbpModal> {
                       ),
                     ),
                     keyboardType: TextInputType.text,
-                    controller: searchController,
                   ),
                 ],
               ],
@@ -148,7 +162,7 @@ class _MyWidgetState extends State<ESbpModal> {
             child: Container(
               color: widget.theme.bgColor,
               child: BankList(
-                bankList: bankList,
+                bankList: searchResult.isEmpty ? bankList : searchResult,
                 paymentUrl: widget.paymentUrl,
                 handleGetBankList: handleGetBankList,
                 isLoading: isLoading,
