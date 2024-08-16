@@ -1,9 +1,11 @@
 import 'package:easy_sbp/widgets/sbp_button.dart';
 import 'package:flutter/material.dart';
 
+// https://qr.nspk.ru/AS100001ORTF4GAF80KPJ53K186D9A3G? type=01&bank=100000000007&crc=0C8A
+
 // Test payment url
 const paymentUrl =
-    'https://qr.nspk.ru/BD10005L4ASST1199F79JPLJRVKKP6Q4?type=02&bank=100000000123&sum=67000&cur=RUB&crc=F314';
+    'https://qr.nspk.ru/BD10005L4ASST1199F79JPLJRVKKP6Q4?type=01&bank=100000000123&sum=1000&cur=RUB&crc=F314';
 
 void main() {
   runApp(const MyApp());

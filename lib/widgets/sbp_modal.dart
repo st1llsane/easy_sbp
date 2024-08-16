@@ -57,7 +57,6 @@ class _MyWidgetState extends State<ESbpModal> {
           .where((bank) => bank.bankName.trim().toLowerCase().contains(value))
           .toList();
     });
-    print(searchResult);
   }
 
   @override
@@ -80,7 +79,7 @@ class _MyWidgetState extends State<ESbpModal> {
               top: 10,
               left: 15,
               right: 15,
-              bottom: 15,
+              bottom: 10,
             ),
             child: Column(
               children: [
@@ -95,6 +94,7 @@ class _MyWidgetState extends State<ESbpModal> {
                       constraints: BoxConstraints.loose(
                         const Size.fromRadius(18),
                       ),
+                      padding: const EdgeInsets.all(8),
                     ),
                     Text(
                       'Оплата через СБП',
@@ -102,6 +102,7 @@ class _MyWidgetState extends State<ESbpModal> {
                         fontSize: 18,
                         fontWeight: FontWeight.w500,
                         color: widget.theme.fgColor,
+                        height: 1,
                       ),
                       maxLines: 2,
                     ),
@@ -145,6 +146,7 @@ class _MyWidgetState extends State<ESbpModal> {
                     ),
                     keyboardType: TextInputType.text,
                   ),
+                  const SizedBox(height: 5),
                 ],
               ],
             ),

@@ -14,7 +14,6 @@ List<Bank> fixTBankReceivedName(List<Bank> banks) {
       logoURL: bank.logoURL,
       schema: bank.schema,
       bankName: bankName,
-      webClientUrl: bank.webClientUrl,
     ));
   }
 

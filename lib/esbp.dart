@@ -10,7 +10,7 @@
 import 'dart:convert';
 
 import 'package:easy_sbp/models/bank.dart';
-import 'package:easy_sbp/shared/enums.dart';
+import 'package:easy_sbp/shared/types/enums.dart';
 import 'package:easy_sbp/shared/utils/fix_t_bank_received_name.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -22,7 +22,7 @@ class ESbp {
     return ESbpPlatform.instance.getPlatformVersion();
   }
 
-  /// Returns list of banks from nspk api.
+  // Return list of banks from nspk api.
   Future<List<Bank>> getBankList() async {
     try {
       // Fetch banks list.
@@ -42,6 +42,12 @@ class ESbp {
       // Parse bank data.
       for (final item in bankList) {
         final bank = Bank.fromJson(item);
+
+        if (bank.schema.isEmpty ||
+            bank.bankName.isEmpty ||
+            bank.logoURL.isEmpty) {
+          continue;
+        }
 
         mappedList.add(bank);
       }
@@ -87,16 +93,7 @@ class ESbp {
       );
     } catch (e) {
       print('ERROR openBank: $e');
-
-      // return OpenBankResult.failure;
     }
-
-    // // Ensure the state is still mounted before interacting with notifier
-    // if (!mounted) return;
-    // _statesMapNotifier.value = {
-    //   'wasRestarted': false,
-    //   'wasTransited': wasLaunched,
-    // };
 
     // print('WAS LAUNCHED: $isBankAppWasLaunched');
 
@@ -104,30 +101,30 @@ class ESbp {
       print('Could not launch app with link: $link.\n'
           "Most likely, user doesn't have this bank app installed");
 
-      // Fallback option: Open bank in app web view
-      if (paymentUrl.isNotEmpty) {
-        try {
-          print('Try to launch in app browser: $paymentUrl');
+      // Fallback option: Open bank in app browser
+      try {
+        print('Try to launch in app browser: $paymentUrl');
 
-          await launchUrl(
-            // bank.webClientUrl,
-            Uri.parse(paymentUrl),
-            mode: LaunchMode.inAppWebView,
-          );
-        } catch (e) {
-          print('ERROR opening webClientUrl: $e');
+        isBankAppWasLaunched = await launchUrl(
+          Uri.parse(paymentUrl),
+          mode: LaunchMode.inAppBrowserView,
+        );
 
-          return OpenBankResult.failure;
+        if (isBankAppWasLaunched) {
+          return OpenBankResult.success;
         }
-      } else {
+      } catch (e) {
+        print('ERROR opening bank in app browser: $e');
+
         if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Указанный банк не был найден')),
+            const SnackBar(
+                content: Text('Произошла ошибка. Попробуйте другой банк.')),
           );
         }
-
-        return OpenBankResult.failure;
       }
+
+      return OpenBankResult.failure;
     }
 
     return OpenBankResult.success;

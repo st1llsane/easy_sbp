@@ -1,6 +1,6 @@
 import 'package:easy_sbp/esbp.dart';
 import 'package:easy_sbp/models/bank.dart';
-import 'package:easy_sbp/shared/enums.dart';
+import 'package:easy_sbp/shared/types/enums.dart';
 import 'package:easy_sbp/widgets/info_modal.dart';
 import 'package:flutter/material.dart';
 
@@ -34,8 +34,7 @@ class _BankItemState extends State<BankItem> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () async {
-        print(widget.bank.bankName.trim().toLowerCase());
-        return;
+        // print(widget.bank.bankName);
         OpenBankResult openBankResult = await handleOpenBank();
 
         if (openBankResult == OpenBankResult.failure && context.mounted) {
