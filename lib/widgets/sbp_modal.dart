@@ -21,8 +21,8 @@ class ESbpModal extends StatefulWidget {
 
 class _MyWidgetState extends State<ESbpModal> {
   final esbp = ESbp();
-  late FocusNode searchFocusNode;
-  late TextEditingController searchController;
+  late FocusNode textFieldNode;
+  late TextEditingController textFieldController;
   List<Bank> bankList = [];
   bool isLoading = true;
   bool isEmpty = true;
@@ -33,8 +33,8 @@ class _MyWidgetState extends State<ESbpModal> {
     super.initState();
 
     handleGetBankList();
-    searchFocusNode = FocusNode();
-    searchController = TextEditingController();
+    textFieldNode = FocusNode();
+    textFieldController = TextEditingController();
   }
 
   void handleGetBankList() async {
@@ -61,8 +61,8 @@ class _MyWidgetState extends State<ESbpModal> {
 
   @override
   void dispose() {
-    searchFocusNode.dispose();
-    searchController.dispose();
+    textFieldNode.dispose();
+    textFieldController.dispose();
     super.dispose();
   }
 
@@ -109,42 +109,39 @@ class _MyWidgetState extends State<ESbpModal> {
                   ],
                 ),
 
-                // Don't need to show search bar if bank list is empty
+                // Don't need to show text field if bank list is empty
                 if (!isLoading && !isEmpty) ...[
                   const SizedBox(height: 10),
-                  SearchBar(
-                    focusNode: searchFocusNode,
-                    controller: searchController,
+                  TextField(
+                    focusNode: textFieldNode,
+                    controller: textFieldController,
                     onChanged: searchBank,
-                    onTapOutside: (event) => searchFocusNode.unfocus(),
-                    hintText: 'Введите название банка',
-                    padding: WidgetStateProperty.all<EdgeInsetsGeometry?>(
-                      const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 5,
+                    onTapOutside: (_) => textFieldNode.unfocus(),
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(100),
+                        borderSide: BorderSide.none,
                       ),
-                    ),
-                    constraints: const BoxConstraints(minHeight: 40),
-                    shadowColor: null,
-                    elevation: WidgetStatePropertyAll(
-                      widget.theme.searchBarElevation,
-                    ),
-                    backgroundColor: WidgetStateProperty.all(
-                      widget.theme.searchBarBgColor,
-                    ),
-                    hintStyle: WidgetStatePropertyAll(
-                      TextStyle(
+                      hintText: 'Введите название банка',
+                      hintStyle: TextStyle(
                         color: widget.theme.searchBarHintColor,
                         fontSize: 16,
                       ),
-                    ),
-                    textStyle: WidgetStatePropertyAll(
-                      TextStyle(
-                        color: widget.theme.fgColor,
-                        fontSize: 16,
+                      constraints: const BoxConstraints(maxHeight: 46),
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 20,
                       ),
+                      filled: true,
+                      fillColor: widget.theme.searchBarBgColor,
                     ),
+                    style: TextStyle(
+                      color: widget.theme.fgColor,
+                      fontSize: 16,
+                      height: 1,
+                    ),
+                    cursorColor: widget.theme.fgColor,
                     keyboardType: TextInputType.text,
+                    enableSuggestions: false,
                   ),
                   const SizedBox(height: 5),
                 ],

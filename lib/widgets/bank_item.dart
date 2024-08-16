@@ -34,7 +34,6 @@ class _BankItemState extends State<BankItem> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () async {
-        // print(widget.bank.bankName);
         OpenBankResult openBankResult = await handleOpenBank();
 
         if (openBankResult == OpenBankResult.failure && context.mounted) {
@@ -42,7 +41,7 @@ class _BankItemState extends State<BankItem> {
             context,
             title: 'Произошла ошибка',
             description:
-                'К сожалению, на данный момент, оплата через этот банк недоступна',
+                'На текущий момент, оплата через данный банк недоступна',
           );
         }
       },
@@ -66,10 +65,31 @@ class _BankItemState extends State<BankItem> {
                     clipBehavior: Clip.hardEdge,
                     child: Image.network(
                       widget.bank.logoURL,
-                      height: 40,
                       width: 40,
+                      height: 40,
                       fit: BoxFit.cover,
                       semanticLabel: '${widget.bank.bankName} logo',
+                      loadingBuilder: (context, child, loadingProgress) {
+                        if (loadingProgress == null) {
+                          return child;
+                        }
+
+                        return Container(
+                          color: Colors.amber.shade200,
+                          width: 40,
+                          height: 40,
+                          alignment: Alignment.center,
+                          child: Text(
+                            widget.bank.bankName.isNotEmpty
+                                ? widget.bank.bankName[0].toUpperCase()
+                                : '',
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                            ),
+                          ),
+                        );
+                      },
                     ),
                   ),
                   const SizedBox(width: 10),

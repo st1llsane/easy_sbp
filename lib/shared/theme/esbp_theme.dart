@@ -22,7 +22,6 @@ class ESbpModalTheme extends ESbpThemeAbstract {
   final Color headerBgColor;
   final Color searchBarBgColor;
   final Color searchBarHintColor;
-  final double searchBarElevation;
   final bool isShowBottomDivider;
   final Color dividerColor;
 
@@ -31,7 +30,6 @@ class ESbpModalTheme extends ESbpThemeAbstract {
     this.headerBgColor = const Color(0xFFFFFFFF),
     this.searchBarBgColor = const Color(0xFFEEEEEE),
     this.searchBarHintColor = const Color(0xFFBDBDBD),
-    this.searchBarElevation = 0,
     this.isShowBottomDivider = true,
     this.dividerColor = const Color(0xFFEEEEEE),
     // Modal body
