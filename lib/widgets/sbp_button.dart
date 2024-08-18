@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 class ESbpButton extends StatelessWidget {
   final String paymentUrl;
+  final List<String>? bankSchemesToLoad;
   // final VoidCallback onComplete;
   final ESbpButtonTheme sbpButtonTheme;
   final ESbpModalTheme sbpModalTheme;
@@ -11,6 +12,7 @@ class ESbpButton extends StatelessWidget {
   const ESbpButton({
     super.key,
     required this.paymentUrl,
+    this.bankSchemesToLoad,
     // required this.onComplete,
     this.sbpButtonTheme = const ESbpButtonTheme(),
     this.sbpModalTheme = const ESbpModalTheme(),
@@ -19,7 +21,12 @@ class ESbpButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () => showSbpModal(context, sbpModalTheme, paymentUrl),
+      onPressed: () => showSbpModal(
+        context,
+        sbpModalTheme,
+        paymentUrl,
+        bankSchemesToLoad,
+      ),
       style: ElevatedButton.styleFrom(
         backgroundColor: sbpButtonTheme.bgColor,
         foregroundColor: sbpButtonTheme.fgColor,

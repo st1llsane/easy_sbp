@@ -7,11 +7,13 @@ import 'package:flutter/material.dart';
 class ESbpModal extends StatefulWidget {
   final ESbpModalTheme theme;
   final String paymentUrl;
+  final List<String>? bankSchemesToLoad;
 
-  /// Includes [Title], [SearchTextField] and scrollable [BankList].
+  /// Includes [Title], [TextField] and scrollable [BankList].
   const ESbpModal({
     super.key,
     required this.paymentUrl,
+    this.bankSchemesToLoad,
     this.theme = const ESbpModalTheme(),
   });
 
@@ -38,7 +40,7 @@ class _MyWidgetState extends State<ESbpModal> {
   }
 
   void handleGetBankList() async {
-    bankList = await esbp.getBankList();
+    bankList = await esbp.getBankList(widget.bankSchemesToLoad);
 
     if (mounted) {
       setState(() {
@@ -179,6 +181,7 @@ Future<void> showSbpModal(
   BuildContext context,
   ESbpModalTheme theme,
   String paymentUrl,
+  List<String>? bankSchemesToLoad,
 ) {
   return showModalBottomSheet<void>(
     context: context,
@@ -191,6 +194,7 @@ Future<void> showSbpModal(
     builder: (_) => ESbpModal(
       theme: theme,
       paymentUrl: paymentUrl,
+      bankSchemesToLoad: bankSchemesToLoad,
     ),
   );
 }

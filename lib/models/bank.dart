@@ -11,6 +11,7 @@ class Bank {
     required this.schema,
   });
 
+  /// Parse received data from Json
   factory Bank.fromJson(Map<String, dynamic> json) {
     return Bank(
       bankName: utf8.decode(json['bankName'].codeUnits) as String? ?? '',

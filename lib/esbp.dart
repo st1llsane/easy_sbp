@@ -11,7 +11,6 @@ import 'dart:convert';
 
 import 'package:easy_sbp/models/bank.dart';
 import 'package:easy_sbp/shared/types/enums.dart';
-import 'package:easy_sbp/shared/utils/fix_t_bank_received_name.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'esbp_platform_interface.dart';
@@ -22,10 +21,13 @@ class ESbp {
     return ESbpPlatform.instance.getPlatformVersion();
   }
 
-  // Return list of banks from nspk api.
-  Future<List<Bank>> getBankList() async {
+  /// Return list of banks from nspk api.
+  ///
+  /// If bankSchemesToLoad has been provided, then render only banks with appropriate schemes.
+  /// !!!Dont forget to add the same schemes in your info.plist LSApplicationQueriesSchemes array!!!.
+  Future<List<Bank>> getBankList(List<String>? bankSchemesToLoad) async {
     try {
-      // Fetch banks list.
+      // Fetch bank list.
       final response = await http.get(
         Uri.parse('https://qr.nspk.ru/proxyapp/c2bmembers.json'),
       );
@@ -34,14 +36,16 @@ class ESbp {
       final decodedMap = jsonDecode(response.body) as Map<String, dynamic>;
 
       // Decode dictionary with banks from Json.
-      final bankList = decodedMap['dictionary'] as List;
+      final decodedBankList = decodedMap['dictionary'] as List;
 
-      // Create empty bank list to fill it with parsed banks data later.
-      final mappedList = <Bank>[];
+      // Create empty bank list to fill it with filterd bank data later.
+      final List<Bank> bankList = [];
 
-      // Parse bank data.
-      for (final item in bankList) {
-        final bank = Bank.fromJson(item);
+      // Filter bank data.
+      final List listForMapping = bankSchemesToLoad ?? decodedBankList;
+      for (int i = 0; i < listForMapping.length; i++) {
+        final bank = Bank.fromJson(decodedBankList[i]);
+        String bankName = bank.bankName;
 
         if (bank.schema.isEmpty ||
             bank.bankName.isEmpty ||
@@ -49,19 +53,28 @@ class ESbp {
           continue;
         }
 
-        mappedList.add(bank);
+        // If bankSchemesToLoad has been provided, then add only banks with appropriate schemes.
+        if (bankSchemesToLoad != null && bankSchemesToLoad[i] != bank.schema) {
+          continue;
+        }
+
+        // Fix T-Bank received name, because in the api we get T-Bank with English "T" word.
+        if (bankName.trim().toLowerCase() == 't-банк') {
+          bankName = 'Т-Банк';
+        }
+
+        bankList.add(Bank(
+          logoURL: bank.logoURL,
+          schema: bank.schema,
+          bankName: bankName,
+        ));
       }
 
-      // Fix T-Bank received name, because in the api we get T-Bank with English "T" word.
-      final fixedBankList = fixTBankReceivedName(mappedList);
-
-      // print('____BANK_LIST____: ${mappedList}');
-
-      return fixedBankList;
+      return bankList;
     } catch (e) {
-      print('____ERROR____: $e');
+      print('ERROR when getBankList: $e');
 
-      /// Return empty bank list if something went wrong.
+      // Return empty bank list if something went wrong.
       return <Bank>[];
     }
   }
@@ -92,7 +105,7 @@ class ESbp {
         mode: LaunchMode.externalNonBrowserApplication,
       );
     } catch (e) {
-      print('ERROR openBank: $e');
+      print('ERROR when openBank: $e');
     }
 
     // print('WAS LAUNCHED: $isBankAppWasLaunched');

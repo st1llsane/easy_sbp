@@ -4,8 +4,35 @@ import 'package:flutter/material.dart';
 // https://qr.nspk.ru/AS100001ORTF4GAF80KPJ53K186D9A3G? type=01&bank=100000000007&crc=0C8A
 
 // Test payment url
-const paymentUrl =
+const String paymentUrl =
     'https://qr.nspk.ru/BD10005L4ASST1199F79JPLJRVKKP6Q4?type=01&bank=100000000123&sum=1000&cur=RUB&crc=F314';
+// For ios: banks schemes that you would like to see in your app
+// You should provide the same schemes to LSApplicationQueriesSchemes in info.plist
+const List<String> bankSchemesToLoad = [
+  // sberbank
+  'bank100000000111',
+  // t-bank
+  'bank100000000004',
+  // vtb
+  'bank110000000005',
+  // alfa-bank
+  'bank100000000008',
+  // raiffeisen
+  'bank100000000007',
+  // openbank
+  'bank100000000015',
+  // gazprombank
+  'bank100000000001',
+  // psbank - promsvyazbank
+  'bank100000000010',
+  // sovcom
+  'bank100000000013',
+  // rosbank
+  'bank100000000012',
+  // rshb - rosselhozbank
+  'bank100000000020',
+  // ...
+];
 
 void main() {
   runApp(const MyApp());
@@ -38,6 +65,7 @@ class _MyAppState extends State<MyApp> {
                   right: 0,
                   child: ESbpButton(
                     paymentUrl: paymentUrl,
+                    bankSchemesToLoad: bankSchemesToLoad,
                     // onComplete: () {}
                   ),
                 ),
