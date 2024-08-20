@@ -8,16 +8,44 @@
 import 'dart:convert';
 
 import 'package:easy_sbp/models/bank.dart';
+import 'package:easy_sbp/shared/theme/esbp_theme.dart';
 import 'package:easy_sbp/shared/types/enums.dart';
+import 'package:easy_sbp/widgets/sbp_modal.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'esbp_platform_interface.dart';
 import 'package:http/http.dart' as http;
 
+const ESbpModalTheme defaultEsbpTheme = ESbpModalTheme();
+
 class ESbp {
+  /// Check current platform version.
   Future<String?> getPlatformVersion() {
     return ESbpPlatform.instance.getPlatformVersion();
+  }
+
+  /// Simple premade modal with Title, Search bar and List of banks.
+  Future<void> showSbpModal(
+    BuildContext context,
+    String paymentUrl, {
+    List<String>? bankSchemesToLoad,
+    ESbpModalTheme? theme,
+  }) {
+    return showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      useSafeArea: true,
+      sheetAnimationStyle: AnimationStyle(
+        duration: Durations.medium2,
+        reverseDuration: Durations.short4,
+      ),
+      builder: (_) => ESbpModal(
+        theme: theme ?? defaultEsbpTheme,
+        paymentUrl: paymentUrl,
+        bankSchemesToLoad: bankSchemesToLoad,
+      ),
+    );
   }
 
   /// Return list of banks from nspk api.
@@ -88,8 +116,7 @@ class ESbp {
   ///
   /// If neither the bank app nor the payment page in the browser can be opened, it is a good practice to provide the user with information about this.
   Future<OpenBankResult> openBank(
-    BuildContext context,
-    bool mounted, {
+    BuildContext context, {
     required Bank bank,
     required String paymentUrl,
   }) async {

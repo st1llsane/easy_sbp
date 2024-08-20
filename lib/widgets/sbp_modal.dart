@@ -176,26 +176,3 @@ class _MyWidgetState extends State<ESbpModal> {
     );
   }
 }
-
-// Simple modal with Title, Search bar and list of banks.
-Future<void> showSbpModal(
-  BuildContext context,
-  String paymentUrl,
-  List<String>? bankSchemesToLoad,
-  ESbpModalTheme theme,
-) {
-  return showModalBottomSheet<void>(
-    context: context,
-    isScrollControlled: true,
-    useSafeArea: true,
-    sheetAnimationStyle: AnimationStyle(
-      duration: Durations.medium2,
-      reverseDuration: Durations.short4,
-    ),
-    builder: (_) => ESbpModal(
-      theme: theme,
-      paymentUrl: paymentUrl,
-      bankSchemesToLoad: bankSchemesToLoad,
-    ),
-  );
-}

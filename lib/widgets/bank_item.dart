@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_sbp/esbp.dart';
 import 'package:easy_sbp/models/bank.dart';
 import 'package:easy_sbp/shared/types/enums.dart';
@@ -24,7 +25,6 @@ class _BankItemState extends State<BankItem> {
   Future<OpenBankResult> handleOpenBank() async {
     return await esbp.openBank(
       context,
-      mounted,
       bank: widget.bank,
       paymentUrl: widget.paymentUrl,
     );
@@ -63,22 +63,15 @@ class _BankItemState extends State<BankItem> {
                       4,
                     ),
                     clipBehavior: Clip.hardEdge,
-                    child: Image.network(
-                      widget.bank.logoURL,
+                    child: CachedNetworkImage(
+                      imageUrl: widget.bank.logoURL,
                       width: 40,
                       height: 40,
-                      fit: BoxFit.cover,
-                      semanticLabel: '${widget.bank.bankName} logo',
-                      loadingBuilder: (context, child, loadingProgress) {
-                        if (loadingProgress == null) {
-                          return child;
-                        }
-
-                        return imagePlaceholder(widget.bank);
-                      },
-                      errorBuilder: (context, error, stackTrace) {
-                        return imagePlaceholder(widget.bank);
-                      },
+                      placeholder: (context, url) =>
+                          imagePlaceholder(widget.bank),
+                      errorWidget: (context, url, error) =>
+                          imagePlaceholder(widget.bank),
+                      fadeInDuration: Duration(microseconds: 500),
                     ),
                   ),
                   const SizedBox(width: 10),

@@ -4,13 +4,15 @@ import 'package:flutter/material.dart';
 class ESbpButtonTheme extends ESbpThemeAbstract {
   final bool isShowIcon;
   final double gap;
+  final double height;
   final EdgeInsets padding;
 
   const ESbpButtonTheme({
-    super.bgColor = const Color(0xFF1A237E),
+    super.bgColor = const Color(0xFF08113E),
     super.fgColor = const Color(0xFFFFFFFF),
     this.isShowIcon = true,
     this.gap = 8,
+    this.height = 44,
     this.padding = const EdgeInsets.symmetric(
       vertical: 8,
       horizontal: 16,

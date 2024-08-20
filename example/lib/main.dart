@@ -1,3 +1,4 @@
+import 'package:easy_sbp/esbp.dart';
 import 'package:easy_sbp/widgets/sbp_button.dart';
 import 'package:flutter/material.dart';
 
@@ -34,47 +35,57 @@ const List<String> bankSchemesToLoad = [
 ];
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
-class MyApp extends StatefulWidget {
-  const MyApp({super.key});
-
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
+      title: "Test",
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        body: Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: 20,
-            vertical: 10,
-          ),
-          child: SafeArea(
-            child: Stack(
-              children: [
-                Positioned(
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  // Simply use ESbpButton to integrate payment via SBP into your application.
-                  child: ESbpButton(
-                    paymentUrl: paymentUrl,
-                    bankSchemesToLoad: bankSchemesToLoad,
-                    isHandleLifecycle: true,
-                    // onComplete: () {}
-                  ),
-                ),
-              ],
+        body: TestSbp(),
+      ),
+    );
+  }
+}
+
+class TestSbp extends StatelessWidget {
+  final esbp = ESbp();
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(
+        horizontal: 20,
+        vertical: 10,
+      ),
+      child: SafeArea(
+        child: Stack(
+          children: [
+            Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              // Use ESbpButton.
+              child: ESbpButton(
+                onPressed: () => handleOnPressed(context),
+                bankSchemesToLoad: bankSchemesToLoad,
+                isHandleLifecycle: true,
+              ),
             ),
-          ),
+          ],
         ),
       ),
+    );
+  }
+
+  void handleOnPressed(BuildContext context) {
+    esbp.showSbpModal(
+      context,
+      paymentUrl,
+      bankSchemesToLoad: bankSchemesToLoad,
     );
   }
 }
