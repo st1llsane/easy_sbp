@@ -1,5 +1,8 @@
 import 'package:easy_sbp/esbp.dart';
 import 'package:easy_sbp/shared/theme/esbp_theme.dart';
+import 'package:easy_sbp/widgets/sbp_modal.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
@@ -48,7 +51,11 @@ class _ESbpButtonState extends State<ESbpButton> {
       _state = state;
 
       if (_state == null || _state == AppLifecycleState.resumed) {
-        isAppResumed = true;
+        Future.delayed(Duration(milliseconds: 500), () {
+          setState(() {
+            isAppResumed = true;
+          });
+        });
       } else {
         isAppResumed = false;
       }
@@ -72,11 +79,11 @@ class _ESbpButtonState extends State<ESbpButton> {
           return;
         }
 
-        esbp.showSbpModal(
+        showSbpModal(
           context,
-          widget.sbpModalTheme,
           widget.paymentUrl,
           widget.bankSchemesToLoad,
+          widget.sbpModalTheme,
         );
       },
       style: ElevatedButton.styleFrom(
@@ -104,8 +111,8 @@ class _ESbpButtonState extends State<ESbpButton> {
                     child: Image.asset(
                       'assets/sbp_logo.png',
                       package: 'easy_sbp',
-                      width: 28,
-                      height: 28,
+                      width: 24,
+                      height: 24,
                     ),
                   ),
                   SizedBox(width: widget.sbpButtonTheme.gap),
@@ -123,7 +130,21 @@ class _ESbpButtonState extends State<ESbpButton> {
                 )
               ]
             : [
-                const CircularProgressIndicator(),
+                Center(
+                  child: SizedBox(
+                    width: 16,
+                    height: 16,
+                    child: defaultTargetPlatform == TargetPlatform.iOS
+                        ? CupertinoActivityIndicator(
+                            color: widget.sbpButtonTheme.fgColor,
+                          )
+                        : CircularProgressIndicator(
+                            color: widget.sbpButtonTheme.fgColor,
+                            strokeWidth: 3,
+                            semanticsLabel: 'Circular progress indicator',
+                          ),
+                  ),
+                )
               ],
       ),
     );

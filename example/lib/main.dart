@@ -66,6 +66,7 @@ class _MyAppState extends State<MyApp> {
                   child: ESbpButton(
                     paymentUrl: paymentUrl,
                     bankSchemesToLoad: bankSchemesToLoad,
+                    isHandleLifecycle: true,
                     // onComplete: () {}
                   ),
                 ),

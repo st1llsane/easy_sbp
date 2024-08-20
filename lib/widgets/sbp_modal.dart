@@ -129,9 +129,9 @@ class _MyWidgetState extends State<ESbpModal> {
                         color: widget.theme.searchBarHintColor,
                         fontSize: 16,
                       ),
-                      constraints: const BoxConstraints(maxHeight: 46),
                       contentPadding: const EdgeInsets.symmetric(
                         horizontal: 20,
+                        vertical: 15,
                       ),
                       filled: true,
                       fillColor: widget.theme.searchBarBgColor,
@@ -175,4 +175,27 @@ class _MyWidgetState extends State<ESbpModal> {
       ),
     );
   }
+}
+
+// Simple modal with Title, Search bar and list of banks.
+Future<void> showSbpModal(
+  BuildContext context,
+  String paymentUrl,
+  List<String>? bankSchemesToLoad,
+  ESbpModalTheme theme,
+) {
+  return showModalBottomSheet<void>(
+    context: context,
+    isScrollControlled: true,
+    useSafeArea: true,
+    sheetAnimationStyle: AnimationStyle(
+      duration: Durations.medium2,
+      reverseDuration: Durations.short4,
+    ),
+    builder: (_) => ESbpModal(
+      theme: theme,
+      paymentUrl: paymentUrl,
+      bankSchemesToLoad: bankSchemesToLoad,
+    ),
+  );
 }
