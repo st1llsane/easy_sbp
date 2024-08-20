@@ -11,6 +11,7 @@ import 'dart:convert';
 
 import 'package:easy_sbp/models/bank.dart';
 import 'package:easy_sbp/shared/types/enums.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'esbp_platform_interface.dart';
@@ -47,9 +48,7 @@ class ESbp {
         final bank = Bank.fromJson(decodedBankList[i]);
         String bankName = bank.bankName;
 
-        if (bank.schema.isEmpty ||
-            bank.bankName.isEmpty ||
-            bank.logoURL.isEmpty) {
+        if (bank.schema.isEmpty || bank.bankName.isEmpty) {
           continue;
         }
 
@@ -70,7 +69,13 @@ class ESbp {
         ));
       }
 
-      return bankList;
+      List<Bank> finalBankList = bankList;
+      if (defaultTargetPlatform == TargetPlatform.iOS && bankList.length > 50) {
+        finalBankList = bankList.getRange(0, 50).toList();
+        bankList.length;
+      }
+
+      return finalBankList;
     } catch (e) {
       print('ERROR when getBankList: $e');
 
@@ -95,10 +100,9 @@ class ESbp {
     final fixedPaymentUrl = paymentUrl.replaceAll(RegExp('https://'), '');
     final link = Uri.parse('${bank.schema}://$fixedPaymentUrl');
 
-    print('LINK: $link');
-
     bool isBankAppWasLaunched = false;
 
+    // Try to launch bank app
     try {
       isBankAppWasLaunched = await launchUrl(
         link,
@@ -108,16 +112,13 @@ class ESbp {
       print('ERROR when openBank: $e');
     }
 
-    // print('WAS LAUNCHED: $isBankAppWasLaunched');
-
     if (!isBankAppWasLaunched) {
-      print('Could not launch app with link: $link.\n'
-          "Most likely, user doesn't have this bank app installed");
+      // print(
+      //     "Could not launch app with link: $link. Most likely, user doesn't have this bank app installed");
 
       // Fallback option: Open bank in app browser
       try {
-        print('Try to launch in app browser: $paymentUrl');
-
+        // print('Try to launch in app browser: $paymentUrl');
         isBankAppWasLaunched = await launchUrl(
           Uri.parse(paymentUrl),
           mode: LaunchMode.inAppBrowserView,

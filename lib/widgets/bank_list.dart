@@ -22,7 +22,7 @@ class BankList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Builder(
       builder: (BuildContext context) {
-        // Show loading indicator if isLoading
+        // Show loading indicator if isLoading == true
         if (isLoading) {
           return Center(
             child: CircularProgressIndicator(

@@ -74,21 +74,10 @@ class _BankItemState extends State<BankItem> {
                           return child;
                         }
 
-                        return Container(
-                          color: Colors.amber.shade200,
-                          width: 40,
-                          height: 40,
-                          alignment: Alignment.center,
-                          child: Text(
-                            widget.bank.bankName.isNotEmpty
-                                ? widget.bank.bankName[0].toUpperCase()
-                                : '',
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                            ),
-                          ),
-                        );
+                        return imagePlaceholder(widget.bank);
+                      },
+                      errorBuilder: (context, error, stackTrace) {
+                        return imagePlaceholder(widget.bank);
                       },
                     ),
                   ),
@@ -115,4 +104,20 @@ class _BankItemState extends State<BankItem> {
       ),
     );
   }
+}
+
+Widget imagePlaceholder(Bank bank) {
+  return Container(
+    color: Colors.amber.shade200,
+    width: 40,
+    height: 40,
+    alignment: Alignment.center,
+    child: Text(
+      bank.bankName.isNotEmpty ? bank.bankName[0].toUpperCase() : '',
+      style: const TextStyle(
+        color: Colors.white,
+        fontSize: 20,
+      ),
+    ),
+  );
 }

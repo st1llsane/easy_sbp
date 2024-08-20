@@ -1,13 +1,12 @@
 import 'package:easy_sbp/widgets/sbp_button.dart';
 import 'package:flutter/material.dart';
 
-// https://qr.nspk.ru/AS100001ORTF4GAF80KPJ53K186D9A3G? type=01&bank=100000000007&crc=0C8A
-
-// Test payment url
+// Test payment url.
 const String paymentUrl =
     'https://qr.nspk.ru/BD10005L4ASST1199F79JPLJRVKKP6Q4?type=01&bank=100000000123&sum=1000&cur=RUB&crc=F314';
-// For ios: banks schemes that you would like to see in your app
-// You should provide the same schemes to LSApplicationQueriesSchemes in info.plist
+
+// For ios: banks schemes that you would like to see in your app.
+// You should provide the same schemes to LSApplicationQueriesSchemes in info.plist.
 const List<String> bankSchemesToLoad = [
   // sberbank
   'bank100000000111',
