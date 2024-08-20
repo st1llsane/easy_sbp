@@ -5,12 +5,12 @@
 // platforms in the `pubspec.yaml` at
 // https://flutter.dev/to/pubspec-plugin-platforms.
 
-// ignore_for_file: avoid_print
-
 import 'dart:convert';
 
 import 'package:easy_sbp/models/bank.dart';
+import 'package:easy_sbp/shared/theme/esbp_theme.dart';
 import 'package:easy_sbp/shared/types/enums.dart';
+import 'package:easy_sbp/widgets/sbp_modal.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -20,6 +20,29 @@ import 'package:http/http.dart' as http;
 class ESbp {
   Future<String?> getPlatformVersion() {
     return ESbpPlatform.instance.getPlatformVersion();
+  }
+
+  /// Simple modal with Title, Search bar and list of banks.
+  Future<void> showSbpModal(
+    BuildContext context,
+    ESbpModalTheme theme,
+    String paymentUrl,
+    List<String>? bankSchemesToLoad,
+  ) {
+    return showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      useSafeArea: true,
+      sheetAnimationStyle: AnimationStyle(
+        duration: Durations.medium2,
+        reverseDuration: Durations.short4,
+      ),
+      builder: (_) => ESbpModal(
+        theme: theme,
+        paymentUrl: paymentUrl,
+        bankSchemesToLoad: bankSchemesToLoad,
+      ),
+    );
   }
 
   /// Return list of banks from nspk api.

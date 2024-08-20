@@ -1,5 +1,5 @@
+import 'package:easy_sbp/esbp.dart';
 import 'package:easy_sbp/shared/theme/esbp_theme.dart';
-import 'package:easy_sbp/widgets/sbp_modal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
@@ -26,6 +26,7 @@ class ESbpButton extends StatefulWidget {
 }
 
 class _ESbpButtonState extends State<ESbpButton> {
+  final esbp = ESbp();
   late final AppLifecycleListener _listener;
   late AppLifecycleState? _state;
   bool isAppResumed = true;
@@ -71,7 +72,7 @@ class _ESbpButtonState extends State<ESbpButton> {
           return;
         }
 
-        showSbpModal(
+        esbp.showSbpModal(
           context,
           widget.sbpModalTheme,
           widget.paymentUrl,

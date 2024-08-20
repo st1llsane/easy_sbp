@@ -62,6 +62,7 @@ class _MyAppState extends State<MyApp> {
                   bottom: 0,
                   left: 0,
                   right: 0,
+                  // Simply use ESbpButton to integrate payment via SBP into your application.
                   child: ESbpButton(
                     paymentUrl: paymentUrl,
                     bankSchemesToLoad: bankSchemesToLoad,

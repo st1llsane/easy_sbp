@@ -176,25 +176,3 @@ class _MyWidgetState extends State<ESbpModal> {
     );
   }
 }
-
-Future<void> showSbpModal(
-  BuildContext context,
-  ESbpModalTheme theme,
-  String paymentUrl,
-  List<String>? bankSchemesToLoad,
-) {
-  return showModalBottomSheet<void>(
-    context: context,
-    isScrollControlled: true,
-    useSafeArea: true,
-    sheetAnimationStyle: AnimationStyle(
-      duration: Durations.medium2,
-      reverseDuration: Durations.short4,
-    ),
-    builder: (_) => ESbpModal(
-      theme: theme,
-      paymentUrl: paymentUrl,
-      bankSchemesToLoad: bankSchemesToLoad,
-    ),
-  );
-}
