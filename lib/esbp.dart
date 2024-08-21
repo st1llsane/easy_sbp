@@ -51,6 +51,7 @@ class ESbp {
   /// Return list of banks from nspk api.
   ///
   /// If bankSchemesToLoad has been provided, then render only banks with appropriate schemes.
+  ///
   /// !!!Dont forget to add the same schemes in your info.plist LSApplicationQueriesSchemes array!!!.
   Future<List<Bank>> getBankList(List<String>? bankSchemesToLoad) async {
     try {

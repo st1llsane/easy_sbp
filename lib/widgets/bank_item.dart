@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_sbp/esbp.dart';
 import 'package:easy_sbp/models/bank.dart';
+import 'package:easy_sbp/shared/theme/esbp_theme.dart';
 import 'package:easy_sbp/shared/types/enums.dart';
 import 'package:easy_sbp/widgets/info_modal.dart';
 import 'package:flutter/material.dart';
@@ -8,11 +9,13 @@ import 'package:flutter/material.dart';
 class BankItem extends StatefulWidget {
   final Bank bank;
   final String paymentUrl;
+  final ESbpModalTheme theme;
 
   const BankItem({
     super.key,
     required this.paymentUrl,
     required this.bank,
+    this.theme = const ESbpModalTheme(),
   });
 
   @override
@@ -78,8 +81,9 @@ class _BankItemState extends State<BankItem> {
                   Flexible(
                     child: Text(
                       widget.bank.bankName,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 16,
+                        color: widget.theme.fgColor,
                       ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,

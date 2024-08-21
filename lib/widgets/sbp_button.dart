@@ -91,7 +91,9 @@ class _ESbpButtonState extends State<ESbpButton> {
           surfaceTintColor: widget.sbpButtonTheme.bgColor,
           shadowColor: Colors.transparent,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(4),
+            borderRadius: BorderRadius.circular(
+              widget.sbpButtonTheme.borderRadius,
+            ),
           ),
           padding: widget.sbpButtonTheme.padding,
           elevation: 0,
@@ -108,21 +110,21 @@ class _ESbpButtonState extends State<ESbpButton> {
                       child: Image.asset(
                         'assets/sbp_logo.png',
                         package: 'easy_sbp',
-                        width: 24,
-                        height: 24,
+                        width: widget.sbpButtonTheme.iconSize.width,
+                        height: widget.sbpButtonTheme.iconSize.height,
                       ),
                     ),
                     SizedBox(width: widget.sbpButtonTheme.gap),
                   ],
                   Text(
                     "СБП",
+                    textAlign: TextAlign.center,
                     style: TextStyle(
                       color: isAppResumed && !widget.isDisabled
                           ? widget.sbpButtonTheme.fgColor
                           : widget.sbpButtonTheme.fgColor.withOpacity(.6),
-                      fontSize: 18,
-                      fontWeight: FontWeight.w500,
-                      height: 1,
+                      fontSize: widget.sbpButtonTheme.fontSize,
+                      fontWeight: widget.sbpButtonTheme.fontWeight,
                     ),
                   )
                 ]

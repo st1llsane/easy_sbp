@@ -89,9 +89,10 @@ class _MyWidgetState extends State<ESbpModal> {
                   children: [
                     IconButton(
                       onPressed: () => Navigator.pop(context),
-                      icon: const Icon(
+                      icon: Icon(
                         Icons.arrow_back_ios_rounded,
                         size: 18,
+                        color: widget.theme.fgColor,
                       ),
                       constraints: BoxConstraints.loose(
                         const Size.fromRadius(18),
@@ -168,6 +169,7 @@ class _MyWidgetState extends State<ESbpModal> {
                 handleGetBankList: handleGetBankList,
                 isLoading: isLoading,
                 isEmpty: isEmpty,
+                theme: widget.theme,
               ),
             ),
           ),
