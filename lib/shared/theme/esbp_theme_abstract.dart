@@ -1,10 +1,10 @@
-import 'package:flutter/material.dart';
+part of 'esbp_theme.dart';
 
-abstract class ESbpThemeAbstract {
+abstract class _ESbpThemeAbstract {
   final Color bgColor;
   final Color fgColor;
 
-  const ESbpThemeAbstract({
+  const _ESbpThemeAbstract({
     required this.bgColor,
     required this.fgColor,
   });

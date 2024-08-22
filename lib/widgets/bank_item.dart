@@ -1,31 +1,26 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:easy_sbp/esbp.dart';
-import 'package:easy_sbp/models/bank.dart';
-import 'package:easy_sbp/shared/theme/esbp_theme.dart';
-import 'package:easy_sbp/shared/types/enums.dart';
-import 'package:easy_sbp/widgets/info_modal.dart';
-import 'package:flutter/material.dart';
+part of 'sbp_modal.dart';
 
-class BankItem extends StatefulWidget {
+class _BankItem extends StatefulWidget {
   final Bank bank;
   final String paymentUrl;
   final ESbpModalTheme theme;
 
-  const BankItem({
-    super.key,
+  const _BankItem({
     required this.paymentUrl,
     required this.bank,
     this.theme = const ESbpModalTheme(),
   });
 
   @override
-  State<BankItem> createState() => _BankItemState();
+  State<_BankItem> createState() => _BankItemState();
 }
 
-class _BankItemState extends State<BankItem> {
+class _BankItemState extends State<_BankItem> {
   final esbp = ESbp();
 
   Future<OpenBankResult> handleOpenBank() async {
+    Navigator.pop(context);
+
     return await esbp.openBank(
       context,
       bank: widget.bank,
@@ -40,7 +35,7 @@ class _BankItemState extends State<BankItem> {
         OpenBankResult openBankResult = await handleOpenBank();
 
         if (openBankResult == OpenBankResult.failure && context.mounted) {
-          infoModal(
+          _infoModal(
             context,
             title: 'Произошла ошибка',
             description:

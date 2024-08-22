@@ -1,9 +1,6 @@
-import 'package:easy_sbp/models/bank.dart';
-import 'package:easy_sbp/shared/theme/esbp_theme.dart';
-import 'package:easy_sbp/widgets/bank_item.dart';
-import 'package:flutter/material.dart';
+part of 'sbp_modal.dart';
 
-class BankList extends StatelessWidget {
+class _BankList extends StatelessWidget {
   final List<Bank> bankList;
   final String paymentUrl;
   final VoidCallback handleGetBankList;
@@ -11,8 +8,7 @@ class BankList extends StatelessWidget {
   final bool isEmpty;
   final ESbpModalTheme theme;
 
-  const BankList({
-    super.key,
+  const _BankList({
     required this.bankList,
     required this.paymentUrl,
     required this.handleGetBankList,
@@ -79,7 +75,7 @@ class BankList extends StatelessWidget {
           ),
           itemBuilder: (context, index) {
             final bank = bankList[index];
-            return BankItem(
+            return _BankItem(
               bank: bank,
               paymentUrl: paymentUrl,
               theme: theme,

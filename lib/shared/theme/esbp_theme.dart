@@ -1,7 +1,8 @@
-import 'package:easy_sbp/shared/theme/esbp_theme_abstract.dart';
 import 'package:flutter/material.dart';
 
-class ESbpButtonTheme extends ESbpThemeAbstract {
+part 'esbp_theme_abstract.dart';
+
+class ESbpButtonTheme extends _ESbpThemeAbstract {
   final Size iconSize;
   final double fontSize;
   final FontWeight fontWeight;
@@ -10,6 +11,9 @@ class ESbpButtonTheme extends ESbpThemeAbstract {
   final double height;
   final EdgeInsets padding;
   final double borderRadius;
+
+  /// If isHandleLifecycle == true, you can provide your own time in milliseconds, how long button will be disabled when onResume event happened.
+  final int disableButtonOnResumeDuration;
 
   const ESbpButtonTheme({
     super.bgColor = const Color(0xFF08113E),
@@ -25,10 +29,11 @@ class ESbpButtonTheme extends ESbpThemeAbstract {
       horizontal: 16,
     ),
     this.borderRadius = 4,
+    this.disableButtonOnResumeDuration = 500,
   });
 }
 
-class ESbpModalTheme extends ESbpThemeAbstract {
+class ESbpModalTheme extends _ESbpThemeAbstract {
   final Color headerBgColor;
   final Color searchBarBgColor;
   final Color searchBarHintColor;

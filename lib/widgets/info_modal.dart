@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
+part of 'sbp_modal.dart';
 
-Future<void> infoModal(
+Future<void> _infoModal(
   BuildContext context, {
   required String title,
   required String description,

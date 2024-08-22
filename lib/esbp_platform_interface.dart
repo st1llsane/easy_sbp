@@ -1,24 +1,22 @@
-import 'package:plugin_platform_interface/plugin_platform_interface.dart';
+part of 'esbp.dart';
 
-import 'esbp_method_channel.dart';
-
-abstract class ESbpPlatform extends PlatformInterface {
+abstract class _ESbpPlatform extends PlatformInterface {
   /// Constructs a ESbpPlatform.
-  ESbpPlatform() : super(token: _token);
+  _ESbpPlatform() : super(token: _token);
 
   static final Object _token = Object();
 
-  static ESbpPlatform _instance = ESbpMethodChannel();
+  static _ESbpPlatform _instance = _ESbpMethodChannel();
 
   /// The default instance of [ESbpPlatform] to use.
   ///
   /// Defaults to [ESbpMethodChannel].
-  static ESbpPlatform get instance => _instance;
+  static _ESbpPlatform get instance => _instance;
 
   /// Platform-specific implementations should set this with their own
   /// platform-specific class that extends [ESbpPlatform] when
   /// they register themselves.
-  static set instance(ESbpPlatform instance) {
+  static set instance(_ESbpPlatform instance) {
     PlatformInterface.verifyToken(instance, _token);
     _instance = instance;
   }

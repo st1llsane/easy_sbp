@@ -1,8 +1,13 @@
 import 'package:easy_sbp/esbp.dart';
 import 'package:easy_sbp/models/bank.dart';
 import 'package:easy_sbp/shared/theme/esbp_theme.dart';
-import 'package:easy_sbp/widgets/bank_list.dart';
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_sbp/shared/types/enums.dart';
+
+part 'bank_list.dart';
+part 'bank_item.dart';
+part 'info_modal.dart';
 
 class ESbpModal extends StatefulWidget {
   final ESbpModalTheme theme;
@@ -163,7 +168,7 @@ class _MyWidgetState extends State<ESbpModal> {
           Expanded(
             child: Container(
               color: widget.theme.bgColor,
-              child: BankList(
+              child: _BankList(
                 bankList: searchResult.isEmpty ? bankList : searchResult,
                 paymentUrl: widget.paymentUrl,
                 handleGetBankList: handleGetBankList,
