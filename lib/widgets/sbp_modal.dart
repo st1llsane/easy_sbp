@@ -13,7 +13,7 @@ class ESbpModal extends StatefulWidget {
   final ESbpModalTheme theme;
   final String paymentUrl;
   final List<String>? bankSchemesToLoad;
-  final Function()? onClose;
+  final Function()? onInitiatePayment;
 
   /// Includes [Title], [TextField] and scrollable [BankList].
   const ESbpModal({
@@ -21,7 +21,7 @@ class ESbpModal extends StatefulWidget {
     required this.paymentUrl,
     this.bankSchemesToLoad,
     this.theme = const ESbpModalTheme(),
-    this.onClose,
+    this.onInitiatePayment,
   });
 
   @override
@@ -97,10 +97,7 @@ class _ESbpModalState extends State<ESbpModal> {
                     IconButton(
                       onPressed: () {
                         Navigator.pop(context);
-
-                        if (widget.onClose != null) {
-                          widget.onClose!();
-                        }
+                        widget.onInitiatePayment?.call();
                       },
                       icon: Icon(
                         Icons.arrow_back_ios_rounded,
@@ -183,6 +180,7 @@ class _ESbpModalState extends State<ESbpModal> {
                 isLoading: isLoading,
                 isEmpty: isEmpty,
                 theme: widget.theme,
+                onInitiatePayment: widget.onInitiatePayment,
               ),
             ),
           ),

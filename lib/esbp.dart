@@ -36,7 +36,7 @@ class ESbp {
     String paymentUrl, {
     List<String>? bankSchemesToLoad,
     ESbpModalTheme? theme,
-    Function()? onClose,
+    Function()? onInitiatePayment,
   }) {
     return showModalBottomSheet<void>(
       context: context,
@@ -50,7 +50,7 @@ class ESbp {
         paymentUrl: paymentUrl,
         bankSchemesToLoad: bankSchemesToLoad,
         theme: theme ?? defaultEsbpTheme,
-        onClose: onClose,
+        onInitiatePayment: onInitiatePayment,
       ),
     );
   }
@@ -127,6 +127,7 @@ class ESbp {
     BuildContext context, {
     required Bank bank,
     required String paymentUrl,
+    Function()? onInitiatePayment,
   }) async {
     ScaffoldMessenger.of(context).removeCurrentSnackBar();
 
@@ -158,6 +159,11 @@ class ESbp {
         );
 
         if (isBankAppWasLaunched) {
+          // Call onInitiatePayment func if exist.
+          Future.delayed(Duration(milliseconds: 1200), () {
+            onInitiatePayment?.call();
+          });
+
           return OpenBankResult.success;
         }
       } catch (e) {

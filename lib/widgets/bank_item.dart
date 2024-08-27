@@ -4,11 +4,13 @@ class _BankItem extends StatefulWidget {
   final Bank bank;
   final String paymentUrl;
   final ESbpModalTheme theme;
+  final Function()? onInitiatePayment;
 
   const _BankItem({
     required this.paymentUrl,
     required this.bank,
     this.theme = const ESbpModalTheme(),
+    this.onInitiatePayment,
   });
 
   @override
@@ -25,6 +27,7 @@ class _BankItemState extends State<_BankItem> {
       context,
       bank: widget.bank,
       paymentUrl: widget.paymentUrl,
+      onInitiatePayment: widget.onInitiatePayment,
     );
   }
 

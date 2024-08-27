@@ -91,7 +91,7 @@ class TestSbp extends StatelessWidget {
       context,
       paymentUrl,
       bankSchemesToLoad: bankSchemesToLoad,
-      onClose: () => print('SBP modal onClose event'),
+      onInitiatePayment: () => print('SBP modal onClose event'),
     );
   }
 }

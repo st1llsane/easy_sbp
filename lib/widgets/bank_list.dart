@@ -7,6 +7,7 @@ class _BankList extends StatelessWidget {
   final bool isLoading;
   final bool isEmpty;
   final ESbpModalTheme theme;
+  final Function()? onInitiatePayment;
 
   const _BankList({
     required this.bankList,
@@ -15,6 +16,7 @@ class _BankList extends StatelessWidget {
     required this.isLoading,
     required this.isEmpty,
     this.theme = const ESbpModalTheme(),
+    this.onInitiatePayment,
   });
 
   @override
@@ -79,6 +81,7 @@ class _BankList extends StatelessWidget {
               bank: bank,
               paymentUrl: paymentUrl,
               theme: theme,
+              onInitiatePayment: onInitiatePayment,
             );
           },
         );
