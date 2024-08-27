@@ -59,7 +59,7 @@ class ESbp {
   ///
   /// If bankSchemesToLoad has been provided, then render only banks with appropriate schemes.
   ///
-  /// !!!Dont forget to add the same schemes in your info.plist LSApplicationQueriesSchemes array!!!.
+  /// !!!If current plarform is ios and bankSchemesToLoad was provided, dont forget to add the same schemes in your info.plist LSApplicationQueriesSchemes array!!!.
   Future<List<Bank>> getBankList(List<String>? bankSchemesToLoad) async {
     try {
       // Fetch bank list.
@@ -147,12 +147,8 @@ class ESbp {
     }
 
     if (!isBankAppWasLaunched) {
-      // print(
-      //     "Could not launch app with link: $link. Most likely, user doesn't have this bank app installed");
-
       // Fallback option: Open bank in app browser
       try {
-        // print('Try to launch in app browser: $paymentUrl');
         isBankAppWasLaunched = await launchUrl(
           Uri.parse(paymentUrl),
           mode: LaunchMode.inAppBrowserView,
@@ -160,7 +156,7 @@ class ESbp {
 
         if (isBankAppWasLaunched) {
           // Call onInitiatePayment func if exist.
-          Future.delayed(Duration(milliseconds: 1200), () {
+          Future.delayed(Duration(milliseconds: 800), () {
             onInitiatePayment?.call();
           });
 
