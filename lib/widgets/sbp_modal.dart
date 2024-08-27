@@ -13,6 +13,7 @@ class ESbpModal extends StatefulWidget {
   final ESbpModalTheme theme;
   final String paymentUrl;
   final List<String>? bankSchemesToLoad;
+  final Function()? onClose;
 
   /// Includes [Title], [TextField] and scrollable [BankList].
   const ESbpModal({
@@ -20,6 +21,7 @@ class ESbpModal extends StatefulWidget {
     required this.paymentUrl,
     this.bankSchemesToLoad,
     this.theme = const ESbpModalTheme(),
+    this.onClose,
   });
 
   @override
@@ -93,7 +95,13 @@ class _MyWidgetState extends State<ESbpModal> {
                 Row(
                   children: [
                     IconButton(
-                      onPressed: () => Navigator.pop(context),
+                      onPressed: () {
+                        Navigator.pop(context);
+
+                        if (widget.onClose != null) {
+                          widget.onClose!();
+                        }
+                      },
                       icon: Icon(
                         Icons.arrow_back_ios_rounded,
                         size: 18,

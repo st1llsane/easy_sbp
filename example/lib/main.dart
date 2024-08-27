@@ -83,10 +83,11 @@ class TestSbp extends StatelessWidget {
   }
 
   void handleOnPressed(BuildContext context) {
-    esbp.showSbpModal(
+    esbp.openSbpModal(
       context,
       paymentUrl,
       bankSchemesToLoad: bankSchemesToLoad,
+      onClose: () => print('onClose event'),
     );
   }
 }

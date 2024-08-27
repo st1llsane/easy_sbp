@@ -31,11 +31,12 @@ class ESbp {
   }
 
   /// Simple premade modal with Title, Search bar and List of banks.
-  Future<void> showSbpModal(
+  Future<void> openSbpModal(
     BuildContext context,
     String paymentUrl, {
     List<String>? bankSchemesToLoad,
     ESbpModalTheme? theme,
+    Function()? onClose,
   }) {
     return showModalBottomSheet<void>(
       context: context,
@@ -46,9 +47,10 @@ class ESbp {
         reverseDuration: Durations.short4,
       ),
       builder: (_) => ESbpModal(
-        theme: theme ?? defaultEsbpTheme,
         paymentUrl: paymentUrl,
         bankSchemesToLoad: bankSchemesToLoad,
+        theme: theme ?? defaultEsbpTheme,
+        onClose: onClose,
       ),
     );
   }
@@ -89,7 +91,7 @@ class ESbp {
           continue;
         }
 
-        // Fix T-Bank received name, because in the api we get T-Bank with English "T" word.
+        // Fix T-Bank received name, because in the api we get T-Bank with English "T".
         if (bankName.trim().toLowerCase() == 't-банк') {
           bankName = 'Т-Банк';
         }
