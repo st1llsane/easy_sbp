@@ -52,7 +52,8 @@ class _ESbpButtonState extends State<ESbpButton> {
       if (_state == null || _state == AppLifecycleState.resumed) {
         Future.delayed(
           Duration(
-            milliseconds: widget.sbpButtonTheme.disableButtonOnResumeDuration,
+            milliseconds:
+                widget.sbpButtonTheme.onAppResumedButtonDisableDuration,
           ),
           () {
             setState(() {

@@ -25,10 +25,10 @@ class ESbpModal extends StatefulWidget {
   });
 
   @override
-  State<ESbpModal> createState() => _MyWidgetState();
+  State<ESbpModal> createState() => _ESbpModalState();
 }
 
-class _MyWidgetState extends State<ESbpModal> {
+class _ESbpModalState extends State<ESbpModal> {
   final esbp = ESbp();
   late FocusNode textFieldNode;
   late TextEditingController textFieldController;

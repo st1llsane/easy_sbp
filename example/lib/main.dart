@@ -65,17 +65,21 @@ class TestSbp extends StatelessWidget {
         child: Stack(
           children: [
             Positioned(
-              bottom: 0,
-              left: 0,
-              right: 0,
-              // Use ESbpButton.
-              child: ESbpButton(
-                onPressed: () => handleOnPressed(context),
-                bankSchemesToLoad: bankSchemesToLoad,
-                isHandleLifecycle: true,
-              ),
-              // child: BankIte,
-            ),
+                bottom: 0,
+                left: 0,
+                right: 0,
+                // Use ESbpButton.
+                child: Column(
+                  children: [
+                    ESbpButton(
+                      onPressed: () => handleOnPressed(context),
+                      bankSchemesToLoad: bankSchemesToLoad,
+                      isHandleLifecycle: true,
+                    ),
+                  ],
+                )
+                // child: BankIte,
+                ),
           ],
         ),
       ),
@@ -87,7 +91,7 @@ class TestSbp extends StatelessWidget {
       context,
       paymentUrl,
       bankSchemesToLoad: bankSchemesToLoad,
-      onClose: () => print('onClose event'),
+      onClose: () => print('SBP modal onClose event'),
     );
   }
 }

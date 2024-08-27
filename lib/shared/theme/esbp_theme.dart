@@ -13,7 +13,7 @@ class ESbpButtonTheme extends _ESbpThemeAbstract {
   final double borderRadius;
 
   /// If isHandleLifecycle == true, you can provide your own time in milliseconds, how long button will be disabled when onResume event happened.
-  final int disableButtonOnResumeDuration;
+  final int onAppResumedButtonDisableDuration;
 
   const ESbpButtonTheme({
     super.bgColor = const Color(0xFF08113E),
@@ -29,7 +29,7 @@ class ESbpButtonTheme extends _ESbpThemeAbstract {
       horizontal: 16,
     ),
     this.borderRadius = 4,
-    this.disableButtonOnResumeDuration = 500,
+    this.onAppResumedButtonDisableDuration = 500,
   });
 }
 
