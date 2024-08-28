@@ -104,9 +104,9 @@ class ESbp {
       }
 
       List<Bank> finalBankList = bankList;
+
       if (defaultTargetPlatform == TargetPlatform.iOS && bankList.length > 50) {
         finalBankList = bankList.getRange(0, 50).toList();
-        bankList.length;
       }
 
       return finalBankList;
