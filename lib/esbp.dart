@@ -131,17 +131,29 @@ class ESbp {
   }) async {
     ScaffoldMessenger.of(context).removeCurrentSnackBar();
 
-    final fixedPaymentUrl = paymentUrl.replaceAll(RegExp('https://'), '');
-    final link = Uri.parse('${bank.schema}://$fixedPaymentUrl');
-
-    bool isBankAppWasLaunched = false;
+    late String _paymentUrl;
+    late Uri url;
+    late bool isBankAppWasLaunched = false;
 
     // Try to launch bank app
     try {
-      isBankAppWasLaunched = await launchUrl(
-        link,
-        mode: LaunchMode.externalNonBrowserApplication,
-      );
+      if (bank.webClientUrl != null) {
+        _paymentUrl = paymentUrl.replaceAll(RegExp('https://qr.nspk.ru'), '');
+        url = Uri.parse('${bank.webClientUrl}://$_paymentUrl');
+
+        isBankAppWasLaunched = await launchUrl(
+          url,
+          mode: LaunchMode.externalNonBrowserApplication,
+        );
+      } else {
+        _paymentUrl = paymentUrl.replaceAll(RegExp('https://'), '');
+        url = Uri.parse('${bank.schema}://$_paymentUrl');
+
+        isBankAppWasLaunched = await launchUrl(
+          url,
+          mode: LaunchMode.externalApplication,
+        );
+      }
     } catch (e) {
       print('ERROR when openBank: $e');
     }
