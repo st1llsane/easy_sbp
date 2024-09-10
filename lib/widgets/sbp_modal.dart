@@ -83,7 +83,13 @@ class _ESbpModalState extends State<ESbpModal> {
         mainAxisSize: MainAxisSize.max,
         children: [
           Container(
-            color: widget.theme.headerBgColor,
+            decoration: BoxDecoration(
+              color: widget.theme.headerBgColor,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(25),
+                topRight: Radius.circular(25),
+              ),
+            ),
             padding: const EdgeInsets.only(
               top: 10,
               left: 15,
