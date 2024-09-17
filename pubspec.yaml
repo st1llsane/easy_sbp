@@ -1,6 +1,6 @@
 name: easy_sbp
 description: "Easy implementation of SBP in Flutter projects."
-version: 0.0.1+1
+version: 1.1.0+2
 homepage:
 
 environment:
