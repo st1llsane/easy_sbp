@@ -36,6 +36,7 @@ class ESbp {
     String paymentUrl, {
     List<String>? bankSchemesToLoad,
     ESbpModalTheme? theme,
+    double modalHeightFactor = 1,
     Function()? onInitiatePayment,
   }) {
     return showModalBottomSheet<void>(
@@ -46,12 +47,17 @@ class ESbp {
         duration: Durations.medium2,
         reverseDuration: Durations.short4,
       ),
-      builder: (_) => ESbpModal(
-        paymentUrl: paymentUrl,
-        bankSchemesToLoad: bankSchemesToLoad,
-        theme: theme ?? defaultEsbpTheme,
-        onInitiatePayment: onInitiatePayment,
-      ),
+      builder: (_) => LayoutBuilder(builder: (context, constraints) {
+        double modalHeight = constraints.maxHeight * modalHeightFactor;
+
+        return ESbpModal(
+          paymentUrl: paymentUrl,
+          bankSchemesToLoad: bankSchemesToLoad,
+          modalHeight: modalHeight,
+          theme: theme ?? defaultEsbpTheme,
+          onInitiatePayment: onInitiatePayment,
+        );
+      }),
     );
   }
 

@@ -10,9 +10,10 @@ part 'bank_item.dart';
 part 'info_modal.dart';
 
 class ESbpModal extends StatefulWidget {
-  final ESbpModalTheme theme;
   final String paymentUrl;
   final List<String>? bankSchemesToLoad;
+  final double modalHeight;
+  final ESbpModalTheme theme;
   final Function()? onInitiatePayment;
 
   /// Includes [Title], [TextField] and scrollable [BankList].
@@ -20,6 +21,7 @@ class ESbpModal extends StatefulWidget {
     super.key,
     required this.paymentUrl,
     this.bankSchemesToLoad,
+    required this.modalHeight,
     this.theme = const ESbpModalTheme(),
     this.onInitiatePayment,
   });
@@ -77,7 +79,10 @@ class _ESbpModalState extends State<ESbpModal> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
+    return Container(
+      constraints: BoxConstraints(
+        maxHeight: widget.modalHeight,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.max,
