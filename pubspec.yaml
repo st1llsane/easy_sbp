@@ -1,6 +1,6 @@
 name: easy_sbp
 description: "Easy implementation of SBP in Flutter projects."
-version: 1.1.0+2
+version: 1.1.1+3
 homepage:
 
 environment:
@@ -10,12 +10,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  plugin_platform_interface: ^2.0.2
   http: '>=1.2.0 <2.0.0'
   url_launcher: '>=6.3.0 <7.0.0'
   cached_network_image: '>=3.4.0 <4.0.0'
-  flutter_cache_manager: '>=3.4.0 <4.0.0'
-  sqflite: '>=2.3.0 <3.0.0'
 
 dev_dependencies:
   flutter_test:

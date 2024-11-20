@@ -14,22 +14,12 @@ import 'package:easy_sbp/widgets/sbp_modal.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
-
-part 'esbp_platform_interface.dart';
-part 'esbp_method_channel.dart';
 
 const ESbpModalTheme defaultEsbpTheme = ESbpModalTheme();
 
 class ESbp {
-  /// Check current platform version.
-  Future<String?> getPlatformVersion() {
-    return _ESbpPlatform.instance.getPlatformVersion();
-  }
-
   /// Simple premade modal with Title, Search bar and List of banks.
   Future<void> openSbpModal(
     BuildContext context,
@@ -185,8 +175,7 @@ class ESbp {
 
         if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-                content: Text('Произошла ошибка. Попробуйте другой банк.')),
+            const SnackBar(content: Text('Произошла ошибка. Попробуйте другой банк.')),
           );
         }
       }
