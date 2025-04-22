@@ -9,15 +9,9 @@ part 'bank_list.dart';
 part 'bank_item.dart';
 part 'info_modal.dart';
 
-class ESbpModal extends StatefulWidget {
-  final String paymentUrl;
-  final List<String>? bankSchemesToLoad;
-  final double modalHeight;
-  final ESbpModalTheme theme;
-  final Function()? onInitiatePayment;
-
+class SBPModal extends StatefulWidget {
   /// Includes [Title], [TextField] and scrollable [BankList].
-  const ESbpModal({
+  const SBPModal({
     super.key,
     required this.paymentUrl,
     this.bankSchemesToLoad,
@@ -26,12 +20,17 @@ class ESbpModal extends StatefulWidget {
     this.onInitiatePayment,
   });
 
+  final String paymentUrl;
+  final List<String>? bankSchemesToLoad;
+  final double modalHeight;
+  final ESbpModalTheme theme;
+  final Function()? onInitiatePayment;
+
   @override
-  State<ESbpModal> createState() => _ESbpModalState();
+  State<SBPModal> createState() => _SBPModalState();
 }
 
-class _ESbpModalState extends State<ESbpModal> {
-  final esbp = ESbp();
+class _SBPModalState extends State<SBPModal> {
   late FocusNode textFieldNode;
   late TextEditingController textFieldController;
   List<Bank> bankList = [];
@@ -49,7 +48,7 @@ class _ESbpModalState extends State<ESbpModal> {
   }
 
   void handleGetBankList() async {
-    bankList = await esbp.getBankList(widget.bankSchemesToLoad);
+    bankList = await SBP.getBankList(widget.bankSchemesToLoad);
 
     if (mounted) {
       setState(() {

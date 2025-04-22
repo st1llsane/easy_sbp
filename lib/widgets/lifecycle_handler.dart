@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 /// Add inside the widget where you want to monitor the status of the application.
 /// At the moment, it is only possible to track [AppLicecycleState.resumed].
 class _LifecycleHandler extends StatefulWidget {
-  final Function()? onClose;
-
   const _LifecycleHandler({Key? key, this.onClose}) : super(key: key);
+
+  final Function()? onClose;
 
   @override
   _LifecycleHandlerState createState() => _LifecycleHandlerState();

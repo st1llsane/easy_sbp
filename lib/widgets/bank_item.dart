@@ -1,11 +1,6 @@
 part of 'sbp_modal.dart';
 
 class _BankItem extends StatefulWidget {
-  final Bank bank;
-  final String paymentUrl;
-  final ESbpModalTheme theme;
-  final Function()? onInitiatePayment;
-
   const _BankItem({
     required this.paymentUrl,
     required this.bank,
@@ -13,17 +8,20 @@ class _BankItem extends StatefulWidget {
     this.onInitiatePayment,
   });
 
+  final Bank bank;
+  final String paymentUrl;
+  final ESbpModalTheme theme;
+  final Function()? onInitiatePayment;
+
   @override
   State<_BankItem> createState() => _BankItemState();
 }
 
 class _BankItemState extends State<_BankItem> {
-  final esbp = ESbp();
-
   Future<OpenBankResult> handleOpenBank() async {
     Navigator.pop(context);
 
-    return await esbp.openBank(
+    return await SBP.openBank(
       context,
       bank: widget.bank,
       paymentUrl: widget.paymentUrl,
