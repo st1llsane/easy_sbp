@@ -20,7 +20,7 @@ import 'package:http/http.dart' as http;
 const ESbpModalTheme defaultEsbpTheme = ESbpModalTheme();
 
 abstract class SBP {
-  /// Simple premade modal with Title, Search bar and List of banks.
+  /// Simple premade modal with Title, Search Bar and List of banks.
   static Future<void> openSbpModal(
     BuildContext context,
     String paymentUrl, {
