@@ -34,6 +34,7 @@ const List<String> bankSchemesToLoad = [
   // ...
 ];
 
+/// Entry point.
 void main() {
   runApp(MyApp());
 }
@@ -52,8 +53,6 @@ class MyApp extends StatelessWidget {
 }
 
 class TestSbp extends StatelessWidget {
-  final esbp = ESbp();
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -87,7 +86,7 @@ class TestSbp extends StatelessWidget {
   }
 
   void handleOnPressed(BuildContext context) {
-    esbp.openSbpModal(
+    SBP.openSbpModal(
       context,
       paymentUrl,
       bankSchemesToLoad: bankSchemesToLoad,

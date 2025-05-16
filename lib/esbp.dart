@@ -19,9 +19,9 @@ import 'package:http/http.dart' as http;
 
 const ESbpModalTheme defaultEsbpTheme = ESbpModalTheme();
 
-class ESbp {
-  /// Simple premade modal with Title, Search bar and List of banks.
-  Future<void> openSbpModal(
+abstract class SBP {
+  /// Simple premade modal with Title, Search Bar and List of banks.
+  static Future<void> openSbpModal(
     BuildContext context,
     String paymentUrl, {
     List<String>? bankSchemesToLoad,
@@ -40,7 +40,7 @@ class ESbp {
       builder: (_) => LayoutBuilder(builder: (context, constraints) {
         double modalHeight = constraints.maxHeight * modalHeightFactor;
 
-        return ESbpModal(
+        return SBPModal(
           paymentUrl: paymentUrl,
           bankSchemesToLoad: bankSchemesToLoad,
           modalHeight: modalHeight,
@@ -56,7 +56,7 @@ class ESbp {
   /// If bankSchemesToLoad has been provided, then render only banks with appropriate schemes.
   ///
   /// !!!If current plarform is ios and bankSchemesToLoad was provided, dont forget to add the same schemes in your info.plist LSApplicationQueriesSchemes array!!!.
-  Future<List<Bank>> getBankList(List<String>? bankSchemesToLoad) async {
+  static Future<List<Bank>> getBankList(List<String>? bankSchemesToLoad) async {
     try {
       // Fetch bank list.
       final response = await http.get(
@@ -119,7 +119,7 @@ class ESbp {
   /// If user doesn't have installed bank app, then try to open payment page in the browser.
   ///
   /// If neither the bank app nor the payment page in the browser can be opened, it is a good practice to provide the user with information about this.
-  Future<OpenBankResult> openBank(
+  static Future<OpenBankResult> openBank(
     BuildContext context, {
     required Bank bank,
     required String paymentUrl,
@@ -175,7 +175,8 @@ class ESbp {
 
         if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Произошла ошибка. Попробуйте другой банк.')),
+            const SnackBar(
+                content: Text('Произошла ошибка. Попробуйте другой банк.')),
           );
         }
       }
