@@ -23,13 +23,13 @@ const List<String> bankSchemesToLoad = [
   'bank100000000015',
   // gazprombank
   'bank100000000001',
-  // psbank - promsvyazbank
+  // promsvyazbank
   'bank100000000010',
   // sovcom
   'bank100000000013',
   // rosbank
   'bank100000000012',
-  // rshb - rosselhozbank
+  // rosselhozbank
   'bank100000000020',
   // ...
 ];

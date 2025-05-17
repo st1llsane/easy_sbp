@@ -23,7 +23,6 @@ class _BankList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Builder(
       builder: (BuildContext context) {
-        // Show loading indicator if isLoading == true
         if (isLoading) {
           return Center(
             child: CircularProgressIndicator(
@@ -32,7 +31,6 @@ class _BankList extends StatelessWidget {
           );
         }
 
-        // Show error message if isLoading == false and isEmpty == true
         if (!isLoading && isEmpty) {
           return Padding(
             padding: const EdgeInsets.all(20),
