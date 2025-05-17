@@ -14,14 +14,14 @@ class SBPModal extends StatefulWidget {
   const SBPModal({
     super.key,
     required this.paymentUrl,
-    this.bankSchemesToLoad,
+    required this.bankSchemesToLoad,
     required this.modalHeight,
     this.theme = const ESbpModalTheme(),
     this.onInitiatePayment,
   });
 
   final String paymentUrl;
-  final List<String>? bankSchemesToLoad;
+  final List<String> bankSchemesToLoad;
   final double modalHeight;
   final ESbpModalTheme theme;
   final Function()? onInitiatePayment;

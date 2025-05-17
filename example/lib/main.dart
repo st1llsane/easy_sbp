@@ -27,6 +27,8 @@ const List<String> bankSchemesToLoad = [
   'bank100000000010',
   // sovcom
   'bank100000000013',
+  // spb-bank
+  'bank100000000029'
 ];
 
 /// Entry point.

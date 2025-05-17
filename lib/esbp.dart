@@ -25,7 +25,7 @@ abstract class SBP {
   static Future<void> openSbpModal(
     BuildContext context,
     String paymentUrl, {
-    List<String>? bankSchemesToLoad = defaultBankSchemesToLoad,
+    List<String> bankSchemesToLoad = defaultBankSchemesToLoad,
     ESbpModalTheme? theme,
     double modalHeightFactor = 1,
     Function()? onInitiatePayment,
@@ -57,7 +57,7 @@ abstract class SBP {
   /// If bankSchemesToLoad has been provided, then render only banks with appropriate schemes.
   ///
   /// !!!If current plarform is ios and bankSchemesToLoad was provided, dont forget to add the same schemes in your info.plist LSApplicationQueriesSchemes array!!!.
-  static Future<List<Bank>> getBankList(List<String>? bankSchemesToLoad) async {
+  static Future<List<Bank>> getBankList(List<String> bankSchemesToLoad) async {
     try {
       // Fetch bank list.
       final response = await http.get(
@@ -68,38 +68,32 @@ abstract class SBP {
       final decodedMap = jsonDecode(response.body) as Map<String, dynamic>;
 
       // Decode dictionary with banks from Json.
-      final decodedBankList = decodedMap['dictionary'] as List;
+      final List<dynamic> decodedBankList = decodedMap['dictionary'] ?? [];
 
       // Create empty bank list to fill it with filterd bank data later.
       final List<Bank> bankList = [];
 
-      // Filter bank data.
-      final List listForMapping = bankSchemesToLoad ?? decodedBankList;
+      for (var i = 0; i < bankSchemesToLoad.length; i++) {
+        final String bankSheme = bankSchemesToLoad[i];
 
-      for (int i = 0; i < listForMapping.length; i++) {
-        final bank = Bank.fromJson(decodedBankList[i]);
-        String bankName = bank.bankName;
+        for (int j = 0; j < decodedBankList.length; j++) {
+          final Bank bank = Bank.fromJson(decodedBankList[j]);
 
-        if (bank.schema.isEmpty || bank.bankName.isEmpty) {
-          print('CONTINUE');
-          continue;
+          if (bank.schema == bankSheme) {
+            String bankName = bank.bankName;
+
+            // Fix T-Bank received name, because in the api we get T-Bank with English "T".
+            if (bankName.trim().toLowerCase() == 't-банк') {
+              bankName = 'Т-Банк';
+            }
+
+            bankList.add(Bank(
+              logoURL: bank.logoURL,
+              schema: bank.schema,
+              bankName: bankName,
+            ));
+          }
         }
-
-        // If bankSchemesToLoad has been provided, then add only banks with appropriate schemes.
-        // if (bankSchemesToLoad != null && bankSchemesToLoad[i] != bank.schema) {
-        //   continue;
-        // }
-
-        // Fix T-Bank received name, because in the api we get T-Bank with English "T".
-        if (bankName.trim().toLowerCase() == 't-банк') {
-          bankName = 'Т-Банк';
-        }
-
-        bankList.add(Bank(
-          logoURL: bank.logoURL,
-          schema: bank.schema,
-          bankName: bankName,
-        ));
       }
 
       List<Bank> finalBankList = bankList;
