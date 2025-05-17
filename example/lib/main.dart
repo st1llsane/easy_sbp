@@ -27,11 +27,6 @@ const List<String> bankSchemesToLoad = [
   'bank100000000010',
   // sovcom
   'bank100000000013',
-  // rosbank
-  'bank100000000012',
-  // rosselhozbank
-  'bank100000000020',
-  // ...
 ];
 
 /// Entry point.
@@ -72,7 +67,6 @@ class TestSbp extends StatelessWidget {
                   children: [
                     ESbpButton(
                       onPressed: () => handleOnPressed(context),
-                      bankSchemesToLoad: bankSchemesToLoad,
                       isHandleLifecycle: true,
                     ),
                   ],

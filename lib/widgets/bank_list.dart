@@ -38,17 +38,18 @@ class _BankList extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Text(
-                    'Возникла ошибка при попытке получить список банков',
-                    style: TextStyle(fontSize: 20),
+                  Text(
+                    'Приносим извинения, данный способ оплаты временно недоступен',
+                    style: TextStyle(fontSize: 20, color: Colors.grey.shade700),
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 20),
                   ElevatedButton.icon(
                     onPressed: () => handleGetBankList(),
-                    label: const Text(
+                    label: Text(
                       'Повторить попытку',
-                      style: TextStyle(fontSize: 20),
+                      style: TextStyle(
+                          fontSize: 20, color: Colors.deepPurple.shade700),
                     ),
                     icon: const Icon(
                       Icons.replay_outlined,

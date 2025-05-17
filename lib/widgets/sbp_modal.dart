@@ -1,5 +1,5 @@
 import 'package:easy_sbp/esbp.dart';
-import 'package:easy_sbp/models/bank.dart';
+import 'package:easy_sbp/shared/models/bank.dart';
 import 'package:easy_sbp/shared/theme/esbp_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';

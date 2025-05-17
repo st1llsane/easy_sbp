@@ -7,7 +7,8 @@
 
 import 'dart:convert';
 
-import 'package:easy_sbp/models/bank.dart';
+import 'package:easy_sbp/shared/bank_schemes.dart';
+import 'package:easy_sbp/shared/models/bank.dart';
 import 'package:easy_sbp/shared/theme/esbp_theme.dart';
 import 'package:easy_sbp/shared/types/enums.dart';
 import 'package:easy_sbp/widgets/sbp_modal.dart';
@@ -24,7 +25,7 @@ abstract class SBP {
   static Future<void> openSbpModal(
     BuildContext context,
     String paymentUrl, {
-    List<String>? bankSchemesToLoad,
+    List<String>? bankSchemesToLoad = defaultBankSchemesToLoad,
     ESbpModalTheme? theme,
     double modalHeightFactor = 1,
     Function()? onInitiatePayment,
@@ -74,18 +75,20 @@ abstract class SBP {
 
       // Filter bank data.
       final List listForMapping = bankSchemesToLoad ?? decodedBankList;
+
       for (int i = 0; i < listForMapping.length; i++) {
         final bank = Bank.fromJson(decodedBankList[i]);
         String bankName = bank.bankName;
 
         if (bank.schema.isEmpty || bank.bankName.isEmpty) {
+          print('CONTINUE');
           continue;
         }
 
         // If bankSchemesToLoad has been provided, then add only banks with appropriate schemes.
-        if (bankSchemesToLoad != null && bankSchemesToLoad[i] != bank.schema) {
-          continue;
-        }
+        // if (bankSchemesToLoad != null && bankSchemesToLoad[i] != bank.schema) {
+        //   continue;
+        // }
 
         // Fix T-Bank received name, because in the api we get T-Bank with English "T".
         if (bankName.trim().toLowerCase() == 't-банк') {
@@ -108,9 +111,7 @@ abstract class SBP {
       return finalBankList;
     } catch (e) {
       print('ERROR when getBankList: $e');
-
-      // Return empty bank list if something went wrong.
-      return <Bank>[];
+      return [];
     }
   }
 

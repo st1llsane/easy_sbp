@@ -6,7 +6,6 @@ import 'package:flutter/scheduler.dart';
 
 class ESbpButton extends StatefulWidget {
   final Function() onPressed;
-  final List<String>? bankSchemesToLoad;
   final bool isHandleLifecycle;
   final bool isLoading;
   final bool isDisabled;
@@ -16,7 +15,6 @@ class ESbpButton extends StatefulWidget {
   const ESbpButton({
     super.key,
     required this.onPressed,
-    this.bankSchemesToLoad,
     this.isHandleLifecycle = false,
     this.isLoading = false,
     this.isDisabled = false,
